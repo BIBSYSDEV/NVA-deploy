@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: v1.1 Deployment of Frontend NVA
+
+Parameters:
+
+  ApplicationDomainCertificateArn:
+    Type: String
+    Description: ARN  of certificate to assign to the assosiated Domain
+    Default: '{{resolve:secretsmanager:ApplicationDomainCertificateArn:SecretString}}'
+  ApplicationDomain:
+    Type: String
+    Description: |
+      Base part of the domain the stack and components will be deployed to. Must be covered by the certificate.
+      Could be somethoing like .test.aws.unit.no or np-733.test.aws.no.
+      Used to calculate the other addresses in the deployment
+    Default: '{{resolve:secretsmanager:ApplicationDomain:SecretString}}'
+  OrcidBaseUrl:
+    Type: String
+    Description: Address to ORCID services
+    Default: '{{resolve:secretsmanager:OrcidBaseUrl:SecretString}}'
+  OrcidClientID:
+    Type: String
+    Description: Clientid for ORCID
+    NoEcho: true
+    Default: '{{resolve:secretsmanager:OrcidClientID:SecretString}}'
+  OrcidClientSecret:
+    Type: String
+    Description: Secret to authenticate for ORCID
+    NoEcho: true
+    Default: '{{resolve:secretsmanager:OrcidClientSecret:SecretString}}'
+  AlmaSruHost:
+    Type: String
+    Description: URL to ALMA Library services
+    Default: '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
+
+Resources:
+
+  # ===============================
+  #  Frontend
+  # ===============================
+
+  NVAFrontend:
+    Type: AWS::Serverless::Application
+    Description: NVA Frontend
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NVA-Frontend
+        SemanticVersion: 0.1.7
+      Parameters:
+        AlmaApiUrl: !Ref AlmaSruHost
+        AmazonCognitoDomain: !ImportValue CognitoDomain
+        FrontendDomain: !Ref ApplicationDomain
+        BackendDomain: !ImportValue BackendDomainURL
+        DomainCertificateArn: !Ref ApplicationDomainCertificateArn
+        CognitoIdentityPoolId: !ImportValue CognitoIdentityPoolId
+        UserPoolId: !ImportValue CognitoUserPoolId
+        UserPoolAppClientId: !ImportValue CognitoUserPoolAppClientId
+        RedirectSignInUrl: !Sub 'https://${ApplicationDomain}'
+        RedirectSignOutUrl: !Sub 'https://${ApplicationDomain}/logout'
+        OrcidBaseUrl: !Ref OrcidBaseUrl
+        OrcidClientID: !Ref OrcidClientID
+        OrcidClientSecret: !Ref OrcidClientSecret
+        OrcidRedirectUri: !Sub 'https://${ApplicationDomain}/user'
+
