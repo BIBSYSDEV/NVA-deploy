@@ -1,0 +1,271 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: v1.2 Deployment of Backend API NVA
+
+Parameters:
+
+  ApiDomainCertificate:
+    Type: String
+    Description: ARN  of certificate to assign to custom-domain
+    Default: '{{resolve:secretsmanager:ApiDomainCertificate:SecretString}}'
+  ApiDomainName:
+    Type: String
+    Description: What is the custom-domain
+    Default: '{{resolve:secretsmanager:ApiDomainName:SecretString}}'
+  BareApiKey:
+    Type: String
+    Description: Key to access bare
+    NoEcho: true
+    Default: '{{resolve:secretsmanager:bareApiKey:SecretString}}'
+  BareHost:
+    Type: String
+    Description: Address to bare
+    Default: '{{resolve:secretsmanager:BareHost:SecretString}}'
+  AlmaSruHost:
+    Type: String
+    Description: Address to Alma-SRU
+    Default: '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
+
+Resources:
+
+  # ===============================
+  #  CustomDomain to collect all Backend APIs
+  # ===============================
+
+  ApiCustomDomain:
+    Type: AWS::ApiGateway::DomainName
+    Properties:
+      DomainName: !Ref ApiDomainName
+      CertificateArn: !Ref ApiDomainCertificate
+
+  # ===============================
+  #  Allow logging from API Gateway
+  # ===============================
+
+  ApiGwAccountConfig:
+    Type: "AWS::ApiGateway::Account"
+    Properties:
+      CloudWatchRoleArn: !GetAtt "ApiGatewayLoggingRole.Arn"
+  ApiGatewayLoggingRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "apigateway.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Path: "/"
+      ManagedPolicyArns:
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+
+
+  # ===============================
+  #  S3 Storage
+  # ===============================
+
+  NVAStorageBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: ['*']
+            AllowedMethods: [GET, PUT, POST, HEAD]
+            AllowedOrigins: ['*']
+            ExposedHeaders: [ETag]
+      LifecycleConfiguration:
+        Rules:
+          - Id: RemoveFailedUploads
+            Status: Enabled
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 7
+      VersioningConfiguration:
+        Status: Enabled
+
+
+  NVAStorageBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref NVAStorageBucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - "s3:GetObject"
+              - "s3:PutObject"
+              - "s3:AbortMultipartUpload"
+              - "s3:ListMultipartUploadParts"
+              - "s3:ListBucketMultipartUploads"
+            Effect: "Allow"
+            Resource:
+              - !Sub 'arn:aws:s3:::${NVAStorageBucket}'
+              - !Sub 'arn:aws:s3:::${NVAStorageBucket}/*'
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+
+  # ===============================
+  #  API / Backend
+  # ===============================
+
+  SruLastPublication:  # nva-alma-proxy
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/SruLastPublication
+        SemanticVersion: 0.1.1
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: alma
+        AlmaSruHost: !Ref AlmaSruHost
+
+  NvaDoiTransformer: # nva-doi-transformer
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiTransformer
+        SemanticVersion: 0.1.11
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: doi-transform
+
+  ResourceApi: # nva-resource-api
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/ResourceApi
+        SemanticVersion: 0.1.1
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: resource
+        # Reference to table containing resource data - refer to template?
+        ResourceTable: nva_resources
+
+  UploadMultipart: # nva-upload-multipart
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/UploadMultipart
+        SemanticVersion: 0.1.3
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: upload
+        S3UploadBucket: !Ref NVAStorageBucket #  nva-storage-test # S3 Bucket to upload files to  - refer to template?
+
+  PersonData: # nva-bare-proxy
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/PersonData
+        SemanticVersion: 0.1.2
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: person
+        BareApiKey: !Ref BareApiKey
+        BareHost: !Ref BareHost
+
+  NvaPublicationApi:  # nva-publication-api
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaPublicationApi
+        SemanticVersion: 0.1.9
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: publication
+        PublicationsTableName: 'nva_resources'
+        PublicationsByOwnerIndexName: 'ByPublisher'
+
+  PublicationChannelRegister: # nva-channel-registry
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/PublicationChannelRegister
+        SemanticVersion: 0.1.1
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: channel
+
+  nvafetchdoi: # nva-fetch-doi
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/nva-fetch-doi
+        SemanticVersion: 0.1.5
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: doi-fetch
+
+  Projects: # nva-cristin-projects
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/Projects
+        SemanticVersion: 0.1.2
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: project
+
+  NVADOIProxy: # nva-doi-lambda
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/DoiProxy
+        SemanticVersion: 0.1.1
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: doi
+
+  NvaInstitutionProxy:  # nva-institution-proxy
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaInstitutionProxy
+        SemanticVersion: 0.1.2
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: institution
+
+  NvaDownloadPublicationFileApi: # nva-download-file
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDownloadPublicationFileApi
+        SemanticVersion: 0.1.2
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: download
+        S3Bucket: !Ref NVAStorageBucket
+
+  NvaCustomerApi: # nva-customer-api
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCustomerApi
+        SemanticVersion: 0.1.1
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: customer
+        CustomersTableName: nva_customers
+
+
+Outputs:
+  BackendDomainURL:
+    Description: URL to the backend API
+    Value: !Sub 'https://${ApiCustomDomain}/'
+    Export:
+      Name: BackendDomainURL
