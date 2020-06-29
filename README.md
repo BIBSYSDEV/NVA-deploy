@@ -1,7 +1,7 @@
 # NVA-deploy
 Deployment of NVA consists of 2 templates which is used to create resources in 2 separate parent stacks for each of the deployment phases; sandbox, test and production:
- * (deploy_nva_frontend.yml) to deploy NVA frontend GUI
- * (deploy_nva_api.yml) to deploy the lambdas / applications which forms the backend resources of NVA
+ * [deploy_nva_frontend.yml](deploy_nva_frontend.yml) to deploy NVA frontend GUI
+ * [deploy_nva_api.yml](deploy_nva_api.yml) to deploy the lambdas / applications which forms the backend resources of NVA
  
  The templates references published and tagged versions of applications (SAM resources) published in the Serverless Application Repository (SAR).
  To make a component available in SAR it must be published to SAR, this is done via an AWS CodePipeline connected to the master branch in github. [NVA-infrastructure on github](https://github.com/BIBSYSDEV/NVA-infrastructure) contains descriptions and templates to set up a CodePipeline to publish a component to SAR
