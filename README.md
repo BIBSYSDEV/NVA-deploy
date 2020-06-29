@@ -9,7 +9,7 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
  
   * if the resource is already deployed; update version in the template
   * if it is a new resource, copy the SAM resource from available appications in SAR
-  * if the resource is to be underployed, remove it from the template
+  * if the resource is to be undeployed, remove it from the template
   
   Update the parent stack with the template. Done!
   
