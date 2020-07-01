@@ -25,10 +25,6 @@ Parameters:
     Type: String
     Description: Address to Alma-SRU
     Default: '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
-  NVAStorageBucket:
-    Type: String
-    Description: Name of bucket to use for file storage
-
 
 Resources:
 
@@ -117,7 +113,7 @@ Resources:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: upload
-        S3UploadBucket: !Ref NVAStorageBucket #  nva-storage-test # S3 Bucket to upload files to  - refer to template?
+        S3UploadBucket: !ImportValue NVAResourceStorageBucket #  nva-storage-test # S3 Bucket to upload files to  - refer to template?
 
   PersonData: # nva-bare-proxy
     Type: AWS::Serverless::Application
@@ -210,7 +206,7 @@ Resources:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: download
-        S3Bucket: !Ref NVAStorageBucket
+        S3Bucket: !ImportValue NVAResourceStorageBucket
 
   NvaCustomerApi: # nva-customer-api
     Type: AWS::Serverless::Application
