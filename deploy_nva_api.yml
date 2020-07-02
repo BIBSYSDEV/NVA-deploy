@@ -116,6 +116,9 @@ Resources:
         CustomDomainBasePath: publication
         PublicationsTableName: 'nva_resources'
         PublicationsByOwnerIndexName: 'ByPublisher'
+        PublicationsDoiRequestsByStatusIndexName: 'doiRequestsByStatus'
+        PublishedPublicationsIndexName: 'ByStatePublishedDate'
+
 
   PublicationChannelRegister: # nva-channel-registry
     Type: AWS::Serverless::Application
@@ -124,7 +127,6 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/PublicationChannelRegister
         SemanticVersion: 0.1.2
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: channel
 
@@ -157,7 +159,6 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaInstitutionProxy
         SemanticVersion: 0.1.3
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: institution
 
@@ -184,7 +185,7 @@ Resources:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: customer
         CustomersTableName: nva_customers
-
+        CustomersByOrgNumberIndexName: byOrgNumber
 
 Outputs:
   BackendDomainURL:
