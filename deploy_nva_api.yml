@@ -62,48 +62,6 @@ Resources:
         - !Sub "arn:${AWS::Partition}:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
 
 
-  # ===============================
-  #  S3 Storage
-  # ===============================
-
-  NVAStorageBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      CorsConfiguration:
-        CorsRules:
-          - AllowedHeaders: ['*']
-            AllowedMethods: [GET, PUT, POST, HEAD]
-            AllowedOrigins: ['*']
-            ExposedHeaders: [ETag]
-      LifecycleConfiguration:
-        Rules:
-          - Id: RemoveFailedUploads
-            Status: Enabled
-            AbortIncompleteMultipartUpload:
-              DaysAfterInitiation: 7
-      VersioningConfiguration:
-        Status: Enabled
-
-
-  NVAStorageBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref NVAStorageBucket
-      PolicyDocument:
-        Statement:
-          - Action:
-              - "s3:GetObject"
-              - "s3:PutObject"
-              - "s3:AbortMultipartUpload"
-              - "s3:ListMultipartUploadParts"
-              - "s3:ListBucketMultipartUploads"
-            Effect: "Allow"
-            Resource:
-              - !Sub 'arn:aws:s3:::${NVAStorageBucket}'
-              - !Sub 'arn:aws:s3:::${NVAStorageBucket}/*'
-            Principal:
-              Service:
-                - lambda.amazonaws.com
 
   # ===============================
   #  API / Backend
@@ -155,7 +113,7 @@ Resources:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: upload
-        S3UploadBucket: !Ref NVAStorageBucket #  nva-storage-test # S3 Bucket to upload files to  - refer to template?
+        S3UploadBucket: !ImportValue NVAResourceStorageBucket #  nva-storage-test # S3 Bucket to upload files to  - refer to template?
 
   PersonData: # nva-bare-proxy
     Type: AWS::Serverless::Application
@@ -248,7 +206,7 @@ Resources:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: download
-        S3Bucket: !Ref NVAStorageBucket
+        S3Bucket: !ImportValue NVAResourceStorageBucket
 
   NvaCustomerApi: # nva-customer-api
     Type: AWS::Serverless::Application
