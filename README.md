@@ -43,7 +43,7 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
 |API path|GIT repository|SAR App Name|Version|Notes|
 |-----|-----|-----|-----|-----|
 |/alma|nva-alma-proxy|SruLastPublication|0.1.2| |
-|/upload|nva-upload-multipart|UploadMultipart|0.1.5| |
+|/upload|nva-upload-multipart|UploadMultipart|0.1.6| |
 |/person|nva-bare-proxy|PersonData|0.1.3| |
 |/publication|nva-publication-api|NvaPublicationApi|0.1.10| |
 |/channel|nva-channel-registry|PublicationChannelRegister|0.1.2| |
