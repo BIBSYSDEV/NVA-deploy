@@ -179,13 +179,39 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCustomerApi
-        SemanticVersion: 0.1.3
+        SemanticVersion: 0.1.4
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: customer
         CustomersTableName: nva_customers
         CustomersByOrgNumberIndexName: byOrgNumber
+
+  NvaUsersAndRolesService: # nva-user-access-service
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaUsersAndRolesService
+        SemanticVersion: 0.1.2
+      Parameters:
+        ApiKeySecretArn: !Sub 'arn:aws:secretsmanager:eu-west-1:${AWS::AccountId}:secret:UserCatalogueApiKey-dIqvz5'
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        ExternalApiBasePath: users-roles
+        InternalApiBasePath: users-roles-internal
+        UsersAndRolesTableName: UsersAndRolesTable
+
+  NvaCognitoPostAuthenticationTrigger: # nva-cognito-post-authentication-trigger
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCognitoPostAuthenticationTrigger
+        SemanticVersion: 0.1.1
+      Parameters:
+        CustomDomain: !Ref ApiCustomDomain
+        UserServiceSecretArn: !Sub 'arn:aws:secretsmanager:eu-west-1:${AWS::AccountId}:secret:UserCatalogueApiKey-dIqvz5'
+        UserServiceSecretKey: ApiKey
+        UserServiceSecretName: UserCatalogueApiKey
 
 Outputs:
   BackendDomainURL:
