@@ -186,6 +186,7 @@ Resources:
         CustomDomainBasePath: customer
         CustomersTableName: nva_customers
         CustomersByOrgNumberIndexName: byOrgNumber
+        CustomersByCristinIdIndexName: byCristinId
 
   NvaUsersAndRolesService: # nva-user-access-service
     Type: AWS::Serverless::Application
@@ -200,6 +201,7 @@ Resources:
         ExternalApiBasePath: users-roles
         InternalApiBasePath: users-roles-internal
         UsersAndRolesTableName: UsersAndRolesTable
+        StageName: Prod
 
   NvaCognitoPostAuthenticationTrigger: # nva-cognito-post-authentication-trigger
     Type: AWS::Serverless::Application
