@@ -225,9 +225,9 @@ Resources:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: doi-request
-        DoiRequestsIndexName: doiRequest
+        DoiRequestsIndexName: doiRequestsByStatus
         DoiRequestsTableName: nva_resources
-        
+
 Outputs:
   BackendDomainURL:
     Description: URL to the backend API
