@@ -109,7 +109,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaPublicationApi
-        SemanticVersion: 0.1.10
+        SemanticVersion: 0.1.11
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -215,6 +215,19 @@ Resources:
         UserServiceSecretKey: ApiKey
         UserServiceSecretName: UserCatalogueApiKey
 
+  NvaDoiRequestsApi: # nva-doi-requests-api
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRequestsApi
+        SemanticVersion: 0.1.0
+      Parameters:
+        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: doi-request
+        DoiRequestsIndexName: doiRequest
+        DoiRequestsTableName: nva_resources
+        
 Outputs:
   BackendDomainURL:
     Description: URL to the backend API
