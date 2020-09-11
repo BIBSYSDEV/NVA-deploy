@@ -47,11 +47,11 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
 |/person|nva-bare-proxy|PersonData|0.1.3| |
 |/publication|nva-publication-api|NvaPublicationApi|0.1.11| |
 |/channel|nva-channel-registry|PublicationChannelRegister|0.1.2| |
-|/doi-fetch|nva-fetch-doi|nva-fetch-doi|0.1.6| |
+|/doi-fetch|nva-fetch-doi|nva-fetch-doi|0.1.7| |
 |/doi-requests|nva-doi-requests-api|NvaDoiRequestsApi|0.1.0| |
 |/project|nva-cristin-projects|Projects|0.1.3| |
 |/institution|nva-institution-proxy|NvaInstitutionProxy|0.1.3| |
-|/download|nva-download-file|NvaDownloadPublicationFileApi|0.1.3| |
+|/download|nva-download-file|NvaDownloadPublicationFileApi|0.1.4| |
 |/customer|nva-customer-api|NvaCustomerApi|0.1.3|2020-09-09| |
 |/users-roles|nva-user-access-service|NvaUsersAndRolesService|0.1.2|2020-09-09| |
 | |nva-cognito-post-authentication-trigger|NvaCognitoPostAuthenticationTrigger|0.1.1|2020-09-09| |
