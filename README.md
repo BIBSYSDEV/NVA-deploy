@@ -13,7 +13,6 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
   
   Update the parent stack with the template. Done!
   
-  
 ***
   
   **deploy_nva_api.yml** template parameters. 
@@ -37,21 +36,75 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
   | OrcidClientSecret | Secret to authenticate for ORCID | {{secretsmanager:OrcidClientSecret}} |
   | AlmaSruHost | URL to ALMA Library services | {{secretsmanager:AlmaSruHost}} |
   
-  ---
-**Current modules in NVA API and their deployment**
+***
+  
+## NVA Applications Overview
 
-|API path|GIT repository|SAR App Name|Version|Notes|
-|-----|-----|-----|-----|-----|
-|/alma|nva-alma-proxy|SruLastPublication|0.1.2| |
-|/upload|nva-upload-multipart|UploadMultipart|0.1.6| |
-|/person|nva-bare-proxy|PersonData|0.1.3| |
-|/publication|nva-publication-api|NvaPublicationApi|0.1.11| |
-|/channel|nva-channel-registry|PublicationChannelRegister|0.1.2| |
-|/doi-fetch|nva-fetch-doi|nva-fetch-doi|0.1.7| |
-|/doi-requests|nva-doi-requests-api|NvaDoiRequestsApi|0.1.0| |
-|/project|nva-cristin-projects|Projects|0.1.3| |
-|/institution|nva-institution-proxy|NvaInstitutionProxy|0.1.3| |
-|/download|nva-download-file|NvaDownloadPublicationFileApi|0.1.4| |
-|/customer|nva-customer-api|NvaCustomerApi|0.1.3|2020-09-09| |
-|/users-roles|nva-user-access-service|NvaUsersAndRolesService|0.1.2|2020-09-09| |
-| |nva-cognito-post-authentication-trigger|NvaCognitoPostAuthenticationTrigger|0.1.1|2020-09-09| |
+Overview of Serverless Applications in the NVA platform.
+
+### Frontend
+
+**[Frontend](https://github.com/BIBSYSDEV/NVA-frontend)**
+
+Frontend for the NVA application.
+
+### APIs
+
+These applications use DynamoDB tables. Ensure all tables and indices are up to date before updating
+application itself.
+
+**[Publication API](https://github.com/BIBSYSDEV/nva-publication-api)**
+
+For managing Publications.
+
+**[Customers API](https://github.com/BIBSYSDEV/nva-customer-api)**
+
+For managing Customer Instititions.
+
+**[DOI Requests API](https://github.com/BIBSYSDEV/nva-doi-requests-api)**
+
+For managing Publications DOI Requests to Datacite.
+
+**[Users and Roles Service](https://github.com/BIBSYSDEV/nva-user-access-service)**
+
+For managing users of NVA and their roles.
+
+**[Upload Multipart](https://github.com/BIBSYSDEV/nva-upload-multipart)**
+
+For uploading files to Publications.
+
+**[Download Publication File API](https://github.com/BIBSYSDEV/nva-download-file)**
+
+For downloading files from Publications.
+
+### Triggers
+
+**[Cognito Post Authentication Trigger](https://github.com/BIBSYSDEV/nva-cognito-post-authentication-trigger)**
+
+For looking up existing authenticated users or create default users for new logins.
+
+### Proxies to external services
+
+**[Fetch DOI](https://github.com/BIBSYSDEV/nva-fetch-doi)**
+
+For lookup up metadata (Dataciter, Crosstef) for DOI. Metadata found is transformed to Publication and stored in NVA.
+
+**[SRU Last Publication](https://github.com/BIBSYSDEV/nva-alma-proxy)**
+
+???
+
+**[Person Data](https://github.com/BIBSYSDEV/nva-bare-proxy)**
+
+For looking up Authority metadata for Person.
+
+**[Publication Channel Register](https://github.com/BIBSYSDEV/nva-channel-registry)**
+
+For looking up Publication Channels.
+
+**[Projects](https://github.com/BIBSYSDEV/nva-cristin-projects)**
+
+For looking up Projects in Cristin.
+
+**[Institution Proxy](https://github.com/BIBSYSDEV/nva-instituion-proxy)**
+
+For looking up Institutions in Cristin.
