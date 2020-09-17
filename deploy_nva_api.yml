@@ -25,6 +25,9 @@ Parameters:
     Type: String
     Description: Address to Alma-SRU
     Default: '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
+  PublicationsTableStreamArn:
+    Type: String
+    Description: ARN of DynamoDB stream events for publications
 
 Resources:
 
@@ -227,6 +230,18 @@ Resources:
         CustomDomainBasePath: doi-request
         DoiRequestsIndexName: doiRequestsByStatus
         DoiRequestsTableName: nva_resources
+
+  NvaSearchAPI: # nva-search-api
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaSearchAPI
+        SemanticVersion: 0.0.1
+      Parameters:
+        CustomDomain: !Ref ApiCustomDomain
+        CustomDomainBasePath: search
+        ResourcesTableStreamArn: !Ref PublicationsTableStreamArn
+
 
 Outputs:
   BackendDomainURL:
