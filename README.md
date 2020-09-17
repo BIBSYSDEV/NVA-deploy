@@ -41,12 +41,12 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
 ## Deployment steps
 
  1. Identify repositories with changes.
- 2. Merge develop into master for each repositor with changes.
- 3. Create new tag in repository.
+ 2. Merge develop into master for each repository with changes.
+ 3. Create new Github release in repository.
  4. Verify CodePipeline for publishing to SAR (Serverless Repo) has run successfully by checking versions and and date in SAR.
- 5. Update deploy templates with new applications, versions and paramters (if any), see above.
- 6. Verify that any external resources has been updates (DynamoDB, Secrets, Elasticsearch, Cognito etc).
- 7. Deploy templates by updating stacks in Cloudformation.
+ 5. Update deployment templates with new applications, versions and paramters (if any), see above.
+ 6. Verify that any external resources have been updated (DynamoDB, Secrets, Elasticsearch, Cognito etc).
+ 7. Deploy templates by updating stacks in Cloudformation (from local file but ensure that branch is up to date).
  8. Verify changes to stack is Completed.
  9. Deployment is done.
 
@@ -71,7 +71,7 @@ For managing Publications.
 
 **[Customers API](https://github.com/BIBSYSDEV/nva-customer-api)**
 
-For managing Customer Instititions.
+For managing Customer Organizations.
 
 **[DOI Requests API](https://github.com/BIBSYSDEV/nva-doi-requests-api)**
 
@@ -105,15 +105,16 @@ For lookup up metadata (Dataciter, Crosstef) for DOI. Metadata found is transfor
 
 **[SRU Last Publication](https://github.com/BIBSYSDEV/nva-alma-proxy)**
 
-???
+Lookup most recent publication in library system based on name string, returns Authority identifier,
+ title and date. Accessed during first login to associate User with existing Identities in ARP.
 
 **[Person Data](https://github.com/BIBSYSDEV/nva-bare-proxy)**
 
-For looking up Authority metadata for Person.
+For looking up metadata for Person from ARP (Authority Register for Personas).
 
 **[Publication Channel Register](https://github.com/BIBSYSDEV/nva-channel-registry)**
 
-For looking up Publication Channels.
+For looking up Publication Channels in NSD DBH.
 
 **[Projects](https://github.com/BIBSYSDEV/nva-cristin-projects)**
 
@@ -121,7 +122,8 @@ For looking up Projects in Cristin.
 
 **[Institution Proxy](https://github.com/BIBSYSDEV/nva-instituion-proxy)**
 
-For looking up Institutions in Cristin.
+For viewing structured information about Organisations in Cristin? Basically, this service provides
+ a top-level list of Norwegian research Organisations and provides structured hierarchical views of departments in these.
 
 ## Deployment considerations
 
