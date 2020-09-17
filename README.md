@@ -37,7 +37,19 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
   | AlmaSruHost | URL to ALMA Library services | {{secretsmanager:AlmaSruHost}} |
   
 ***
-  
+
+## Deploy steps
+
+ 1. Identify repositories with changes.
+ 2. Merge develop into master for each repositor with changes.
+ 3. Create new tag in repository.
+ 4. Verify CodePipeline for publishing to SAR (Serverless Repo) has run successfully by checking versions and and date in SAR.
+ 5. Update deploy templates with new applications, versions and paramters (if any), see above.
+ 6. Verify that any external resources has been updates (DynamoDB, Secrets, Elasticsearch, Cognito etc).
+ 7. Deploy templates by updating stacks in Cloudformation.
+ 8. Verify changes to stack is Completed.
+ 9. Deployment is done.
+
 ## NVA Applications Overview
 
 Overview of Serverless Applications in the NVA platform.
