@@ -67,7 +67,8 @@ For managing Publications DOI Requests to Datacite.
 
 **[Users and Roles Service](https://github.com/BIBSYSDEV/nva-user-access-service)**
 
-For managing users of NVA and their roles.
+For managing users of NVA and their roles. Uses API Key stored as Secret in AWS to protect parts of 
+the API.
 
 **[Upload Multipart](https://github.com/BIBSYSDEV/nva-upload-multipart)**
 
@@ -81,7 +82,8 @@ For downloading files from Publications.
 
 **[Cognito Post Authentication Trigger](https://github.com/BIBSYSDEV/nva-cognito-post-authentication-trigger)**
 
-For looking up existing authenticated users or create default users for new logins.
+For looking up existing authenticated users or create default users for new logins. Uses API Key 
+stored as Secret in AWS to communicate with Users and Role Service.
 
 ### Proxies to external services
 
