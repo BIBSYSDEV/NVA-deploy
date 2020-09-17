@@ -75,7 +75,7 @@ For managing Customer Organizations.
 
 **[DOI Requests API](https://github.com/BIBSYSDEV/nva-doi-requests-api)**
 
-For managing Publications DOI Requests to Datacite.
+For executing DOI Requests and metadata updates to DOI provider API (Datacite).
 
 **[Users and Roles Service](https://github.com/BIBSYSDEV/nva-user-access-service)**
 
@@ -84,24 +84,24 @@ the API.
 
 **[Upload Multipart](https://github.com/BIBSYSDEV/nva-upload-multipart)**
 
-For uploading files to Publications.
+For uploading files associated with Publications.
 
 **[Download Publication File API](https://github.com/BIBSYSDEV/nva-download-file)**
 
-For downloading files from Publications.
+For downloading files associated with Publications.
 
 ### Triggers
 
 **[Cognito Post Authentication Trigger](https://github.com/BIBSYSDEV/nva-cognito-post-authentication-trigger)**
 
-For looking up existing authenticated users or create default users for new logins. Uses API Key 
+For user verification and creation. Looks up existing users or creates a default user for new logins from Customer Organizations. Uses API Key 
 stored as Secret in AWS to communicate with Users and Role Service.
 
 ### Proxies to external services
 
 **[Fetch DOI](https://github.com/BIBSYSDEV/nva-fetch-doi)**
 
-For lookup up metadata (Dataciter, Crosstef) for DOI. Metadata found is transformed to Publication and stored in NVA.
+Lookup, transformation and persistence of data provided by external DOI metadata services (Datacite, Crossref).
 
 **[SRU Last Publication](https://github.com/BIBSYSDEV/nva-alma-proxy)**
 
