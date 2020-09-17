@@ -110,3 +110,9 @@ For looking up Projects in Cristin.
 **[Institution Proxy](https://github.com/BIBSYSDEV/nva-instituion-proxy)**
 
 For looking up Institutions in Cristin.
+
+## Deployment considerations
+
+**If a DynamoDB table external to the template has changed**
+
+Update the table using the CloudFormation template (do this) or apply the changes manually (don't do this). Make sure to backup any existing data first.
