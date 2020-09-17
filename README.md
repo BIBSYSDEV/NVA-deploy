@@ -38,7 +38,7 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
   
 ***
 
-## Deploy steps
+## Deployment steps
 
  1. Identify repositories with changes.
  2. Merge develop into master for each repositor with changes.
