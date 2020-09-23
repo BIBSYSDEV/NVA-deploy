@@ -40,10 +40,15 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
 
 ## Deployment steps
 
+**Preparations**
+
  1. Identify repositories with changes.
  2. Merge develop into master for each repository with changes.
  3. Create new Github release in repository.
  4. Verify CodePipeline for publishing to SAR (Serverless Repo) has run successfully by checking versions and and date in SAR.
+ 
+**Execution**
+
  5. Update deployment templates with new applications, versions and paramters (if any), see above.
  6. Verify that any external resources have been updated (DynamoDB, Secrets, Elasticsearch, Cognito etc).
  7. Deploy templates by updating stacks in Cloudformation (from local file but ensure that branch is up to date).
@@ -114,7 +119,7 @@ For looking up metadata for Person from ARP (Authority Register for Personas).
 
 **[Publication Channel Register](https://github.com/BIBSYSDEV/nva-channel-registry)**
 
-For looking up Publication Channels in NSD DBH.
+For looking up Publication Channels in [NSD DBH](https://dbh.nsd.uib.no/tjenester.action).
 
 **[Projects](https://github.com/BIBSYSDEV/nva-cristin-projects)**
 
@@ -122,7 +127,7 @@ For looking up Projects in Cristin.
 
 **[Institution Proxy](https://github.com/BIBSYSDEV/nva-instituion-proxy)**
 
-For viewing structured information about Organisations in Cristin? Basically, this service provides
+For viewing structured information about Organisations in Cristin. Basically, this service provides
  a top-level list of Norwegian research Organisations and provides structured hierarchical views of departments in these.
 
 ## Deployment considerations
