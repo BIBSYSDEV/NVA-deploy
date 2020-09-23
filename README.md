@@ -13,7 +13,6 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
   
   Update the parent stack with the template. Done!
   
-  
 ***
   
   **deploy_nva_api.yml** template parameters. 
@@ -37,21 +36,102 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
   | OrcidClientSecret | Secret to authenticate for ORCID | {{secretsmanager:OrcidClientSecret}} |
   | AlmaSruHost | URL to ALMA Library services | {{secretsmanager:AlmaSruHost}} |
   
-  ---
-**Current modules in NVA API and their deployment**
+***
 
-|API path|GIT repository|SAR App Name|Version|Notes|
-|-----|-----|-----|-----|-----|
-|/alma|nva-alma-proxy|SruLastPublication|0.1.2| |
-|/upload|nva-upload-multipart|UploadMultipart|0.1.6| |
-|/person|nva-bare-proxy|PersonData|0.1.3| |
-|/publication|nva-publication-api|NvaPublicationApi|0.1.11| |
-|/channel|nva-channel-registry|PublicationChannelRegister|0.1.2| |
-|/doi-fetch|nva-fetch-doi|nva-fetch-doi|0.1.7| |
-|/doi-requests|nva-doi-requests-api|NvaDoiRequestsApi|0.1.0| |
-|/project|nva-cristin-projects|Projects|0.1.3| |
-|/institution|nva-institution-proxy|NvaInstitutionProxy|0.1.3| |
-|/download|nva-download-file|NvaDownloadPublicationFileApi|0.1.4| |
-|/customer|nva-customer-api|NvaCustomerApi|0.1.3|2020-09-09| |
-|/users-roles|nva-user-access-service|NvaUsersAndRolesService|0.1.2|2020-09-09| |
-| |nva-cognito-post-authentication-trigger|NvaCognitoPostAuthenticationTrigger|0.1.1|2020-09-09| |
+## Deployment steps
+
+**Preparations**
+
+ 1. Identify repositories with changes.
+ 2. Merge develop into master for each repository with changes.
+ 3. Create new Github release in repository.
+ 4. Verify CodePipeline for publishing to SAR (Serverless Repo) has run successfully by checking versions and and date in SAR.
+ 
+**Execution**
+
+ 5. Update deployment templates with new applications, versions and paramters (if any), see above.
+ 6. Verify that any external resources have been updated (DynamoDB, Secrets, Elasticsearch, Cognito etc).
+ 7. Deploy templates by updating stacks in Cloudformation (from local file but ensure that branch is up to date).
+ 8. Verify changes to stack is Completed.
+ 9. Deployment is done.
+
+## NVA Applications Overview
+
+Overview of Serverless Applications in the NVA platform.
+
+### Frontend
+
+**[Frontend](https://github.com/BIBSYSDEV/NVA-frontend)**
+
+Frontend for the NVA application.
+
+### APIs
+
+These applications use DynamoDB tables. Ensure all tables and indices are up to date before updating
+application itself.
+
+**[Publication API](https://github.com/BIBSYSDEV/nva-publication-api)**
+
+For managing Publications.
+
+**[Customers API](https://github.com/BIBSYSDEV/nva-customer-api)**
+
+For managing Customer Organizations.
+
+**[DOI Requests API](https://github.com/BIBSYSDEV/nva-doi-requests-api)**
+
+For executing DOI Requests and metadata updates to DOI provider API (Datacite).
+
+**[Users and Roles Service](https://github.com/BIBSYSDEV/nva-user-access-service)**
+
+For managing users of NVA and their roles. Uses API Key stored as Secret in AWS to protect parts of 
+the API.
+
+**[Upload Multipart](https://github.com/BIBSYSDEV/nva-upload-multipart)**
+
+For uploading files associated with Publications.
+
+**[Download Publication File API](https://github.com/BIBSYSDEV/nva-download-file)**
+
+For downloading files associated with Publications.
+
+### Triggers
+
+**[Cognito Post Authentication Trigger](https://github.com/BIBSYSDEV/nva-cognito-post-authentication-trigger)**
+
+For user verification and creation. Looks up existing users or creates a default user for new logins from Customer Organizations. Uses API Key 
+stored as Secret in AWS to communicate with Users and Role Service.
+
+### Proxies to external services
+
+**[Fetch DOI](https://github.com/BIBSYSDEV/nva-fetch-doi)**
+
+Lookup, transformation and persistence of data provided by external DOI metadata services (Datacite, Crossref).
+
+**[SRU Last Publication](https://github.com/BIBSYSDEV/nva-alma-proxy)**
+
+Lookup most recent publication in library system based on name string, returns Authority identifier,
+ title and date. Accessed during first login to associate User with existing Identities in ARP.
+
+**[Person Data](https://github.com/BIBSYSDEV/nva-bare-proxy)**
+
+For looking up metadata for Person from ARP (Authority Register for Personas).
+
+**[Publication Channel Register](https://github.com/BIBSYSDEV/nva-channel-registry)**
+
+For looking up Publication Channels in [NSD DBH](https://dbh.nsd.uib.no/tjenester.action).
+
+**[Projects](https://github.com/BIBSYSDEV/nva-cristin-projects)**
+
+For looking up Projects in Cristin.
+
+**[Institution Proxy](https://github.com/BIBSYSDEV/nva-instituion-proxy)**
+
+For viewing structured information about Organisations in Cristin. Basically, this service provides
+ a top-level list of Norwegian research Organisations and provides structured hierarchical views of departments in these.
+
+## Deployment considerations
+
+**If a DynamoDB table external to the template has changed**
+
+Update the table using the CloudFormation template (do this) or apply the changes manually (don't do this). Make sure to backup any existing data first.
