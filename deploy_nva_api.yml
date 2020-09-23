@@ -213,7 +213,7 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaUsersAndRolesService
         SemanticVersion: 0.1.2
       Parameters:
-        ApiKeySecretArn: !Sub 'arn:aws:secretsmanager:eu-west-1:${AWS::AccountId}:secret:UserCatalogueApiKey-p9ebkD'
+        ApiKeySecretArn: !Ref UserServiceApiSecretArn
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         ExternalApiBasePath: users-roles
