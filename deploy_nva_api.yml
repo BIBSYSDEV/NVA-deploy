@@ -33,7 +33,9 @@ Parameters:
   UserServiceApiSecretArn:
     Type: String
     Description: ARN for resource in SecretManager for accessing user service (nva-user-access-service)
-    Default: '{{resolve:secretsmanager:UserServiceApiSecretArn:SecretString}}'
+    NoEcho: true
+    # must match param UserServiceApiSecretName
+    Default: '{{resolve:secretsmanager:UserServiceApiKey:SecretString}}'
   UserServiceApiSecretKey:
     Type: String
     Description: 'Key in secret by UserServiceApiSecretArn that contains the api secret.'
@@ -42,7 +44,7 @@ Parameters:
     Type: String
     Description: 'Name of secret (UserServiceApiSecretArn) where it looks up the
      UserServiceApiSecretKey. (Reason: Wrong SecretsReader interface.)'
-    Default: 'UserServiceApiSecret'
+    Default: 'UserServiceApiKey'
 
 Resources:
 
