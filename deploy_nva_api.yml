@@ -25,6 +25,21 @@ Parameters:
     Type: String
     Description: Address to Alma-SRU
     Default: '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
+  # Probably should refactor UserServiceApi* to use AWS IAM here for protecting calls in
+  #  between services.
+  UserServiceApiSecretArn:
+    Type: String
+    Description: ARN for resource in SecretManager for accessing user service (nva-user-access-service)
+    Default: '{{resolve:secretsmanager:UserServiceApiSecretArn:SecretString}}'
+  UserServiceApiSecretKey:
+    Type: String
+    Description: 'Key in secret by UserServiceApiSecretArn that contains the api secret.'
+    Default: 'ApiKey'
+  UserServiceApiSecretName:
+    Type: String
+    Description: 'Name of secret (UserServiceApiSecretArn) where it looks up the
+     UserServiceApiSecretKey. (Reason: Wrong SecretsReader interface.)'
+    Default: '{{resolve:secretsmanager:UserServiceApiSecretName:SecretString}}'
 
 Resources:
 
@@ -203,17 +218,18 @@ Resources:
         UsersAndRolesTableName: UsersAndRolesTable
         StageName: Prod
 
-  NvaCognitoPostAuthenticationTrigger: # nva-cognito-post-authentication-trigger
+  NvaCognitoPreTokenGenerationTrigger: # nva-cognito-pre-token-generation-trigger
     Type: AWS::Serverless::Application
     Properties:
       Location:
+        # TODO: Here will come a new release with a new correct name for pre-token-generation next time we release nva-cognito-pre-token-generation-trigger
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCognitoPostAuthenticationTrigger
         SemanticVersion: 0.1.1
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
-        UserServiceSecretArn: !Sub 'arn:aws:secretsmanager:eu-west-1:${AWS::AccountId}:secret:UserCatalogueApiKey-p9ebkD'
-        UserServiceSecretKey: ApiKey
-        UserServiceSecretName: UserCatalogueApiKey
+        UserServiceSecretArn: !Ref UserServiceApiSecretArn
+        UserServiceSecretKey: !Ref UserServiceApiSecretKey
+        UserServiceSecretName: !Ref UserServiceApiSecretName
 
   NvaDoiRequestsApi: # nva-doi-requests-api
     Type: AWS::Serverless::Application
