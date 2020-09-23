@@ -225,9 +225,8 @@ Resources:
     Type: AWS::Serverless::Application
     Properties:
       Location:
-        # TODO: Here will come a new release with a new correct name for pre-token-generation next time we release nva-cognito-pre-token-generation-trigger
-        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCognitoPostAuthenticationTrigger
-        SemanticVersion: 0.1.1
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCognitoPreTokenGenerationTrigger
+        SemanticVersion: 0.1.2
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         UserServiceSecretArn: !Ref UserServiceApiSecretArn
