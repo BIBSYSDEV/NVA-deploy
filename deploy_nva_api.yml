@@ -39,7 +39,7 @@ Parameters:
     Type: String
     Description: 'Name of secret (UserServiceApiSecretArn) where it looks up the
      UserServiceApiSecretKey. (Reason: Wrong SecretsReader interface.)'
-    Default: '{{resolve:secretsmanager:UserServiceApiSecretName:SecretString}}'
+    Default: 'UserServiceApiSecret'
 
 Resources:
 
