@@ -33,10 +33,10 @@ Parameters:
   UserServiceApiSecretArn:
     Type: String
     Description: ARN for resource in SecretManager for accessing user service (nva-user-access-service)
-    NoEcho: true
     # Secret must be named UserCatalogueApiKey
     # and contain the key: ApiKey (nva-user-access-service requirements)
-    Default: '{{resolve:secretsmanager:UserServiceApiKey}}'
+    # This value should be something like: arn:aws:secretsmanager:eu-west-1:<service-account-id>:secret:UserServiceApiKey-######
+    # But you need to create the secret manually in each environment and referer to it here in the template.
 
 Resources:
 
