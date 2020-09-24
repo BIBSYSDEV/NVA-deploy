@@ -34,17 +34,9 @@ Parameters:
     Type: String
     Description: ARN for resource in SecretManager for accessing user service (nva-user-access-service)
     NoEcho: true
-    # must match param UserServiceApiSecretName
-    Default: '{{resolve:secretsmanager:UserServiceApiKey:SecretString}}'
-  UserServiceApiSecretKey:
-    Type: String
-    Description: 'Key in secret by UserServiceApiSecretArn that contains the api secret.'
-    Default: 'ApiKey'
-  UserServiceApiSecretName:
-    Type: String
-    Description: 'Name of secret (UserServiceApiSecretArn) where it looks up the
-     UserServiceApiSecretKey. (Reason: Wrong SecretsReader interface.)'
-    Default: 'UserServiceApiKey'
+    # Secret must be named UserCatalogueApiKey
+    # and contain the key: ApiKey (nva-user-access-service requirements)
+    Default: '{{resolve:secretsmanager:UserServiceApiKey}}'
 
 Resources:
 
@@ -232,8 +224,8 @@ Resources:
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         UserServiceSecretArn: !Ref UserServiceApiSecretArn
-        UserServiceSecretKey: !Ref UserServiceApiSecretKey
-        UserServiceSecretName: !Ref UserServiceApiSecretName
+        UserServiceSecretKey: ApiKey
+        UserServiceSecretName: UserCatalogueApiKey
 
   NvaDoiRequestsApi: # nva-doi-requests-api
     Type: AWS::Serverless::Application
@@ -248,17 +240,17 @@ Resources:
         DoiRequestsIndexName: doiRequestsByStatus
         DoiRequestsTableName: nva_resources
 
-  NvaSearchAPI: # nva-search-api
-    Type: AWS::Serverless::Application
-    Properties:
-      Location:
-        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaSearchAPI
-        SemanticVersion: 0.0.1
-      Parameters:
-        CustomDomain: !Ref ApiCustomDomain
-        CustomDomainBasePath: search
-        ResourcesTableStreamArn: !Ref PublicationsTableStreamArn
-
+#  NvaSearchAPI: # nva-search-api
+#    Type: AWS::Serverless::Application
+#    Properties:
+#      Location:
+#        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaSearchAPI
+#        SemanticVersion: 0.0.1
+#      Parameters:
+#        CustomDomain: !Ref ApiCustomDomain
+#        CustomDomainBasePath: search
+#        ResourcesTableStreamArn: !Ref PublicationsTableStreamArn
+#
 
 Outputs:
   BackendDomainURL:
