@@ -246,9 +246,6 @@ Resources:
         UserServiceSecretName: UserCatalogueApiKey
 
 
-
-
-
   NvaDoiRequestsApi: # nva-doi-requests-api
     Type: AWS::Serverless::Application
     Properties:
@@ -262,7 +259,7 @@ Resources:
         DoiRequestsIndexName: doiRequestsByStatus
         DoiRequestsTableName: nva_resources
 
-  NvaSearchAPI: # nva-search-api
+  NvaSearchAPI: # nva-search-api+
     Type: AWS::Serverless::Application
     Properties:
       Location:
@@ -272,7 +269,6 @@ Resources:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: search
         ResourcesTableStreamArn: !Ref PublicationsTableStreamArn
-
 
 Outputs:
   BackendDomainURL:
