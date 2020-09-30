@@ -33,16 +33,10 @@ Parameters:
   UserServiceApiSecretArn:
     Type: String
     Description: ARN for resource in SecretManager for accessing user service (nva-user-access-service)
-    Default: '{{resolve:secretsmanager:UserServiceApiSecretArn:SecretString}}'
-  UserServiceApiSecretKey:
-    Type: String
-    Description: 'Key in secret by UserServiceApiSecretArn that contains the api secret.'
-    Default: 'ApiKey'
-  UserServiceApiSecretName:
-    Type: String
-    Description: 'Name of secret (UserServiceApiSecretArn) where it looks up the
-     UserServiceApiSecretKey. (Reason: Wrong SecretsReader interface.)'
-    Default: 'UserServiceApiSecret'
+    # Secret must be named UserCatalogueApiKey
+    # and contain the key: ApiKey (nva-user-access-service requirements)
+    # This value should be something like: arn:aws:secretsmanager:eu-west-1:<service-account-id>:secret:UserServiceApiKey-######
+    # But you need to create the secret manually in each environment and referer to it here in the template.
 
 Resources:
 
@@ -230,8 +224,8 @@ Resources:
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         UserServiceSecretArn: !Ref UserServiceApiSecretArn
-        UserServiceSecretKey: !Ref UserServiceApiSecretKey
-        UserServiceSecretName: !Ref UserServiceApiSecretName
+        UserServiceSecretKey: ApiKey
+        UserServiceSecretName: UserCatalogueApiKey
 
   NvaDoiRequestsApi: # nva-doi-requests-api
     Type: AWS::Serverless::Application
