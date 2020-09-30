@@ -127,7 +127,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaPublicationApi
-        SemanticVersion: 0.1.11
+        SemanticVersion: 0.1.12
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -143,7 +143,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/PublicationChannelRegister
-        SemanticVersion: 0.1.2
+        SemanticVersion: 0.1.3
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: channel
@@ -153,7 +153,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/nva-fetch-doi
-        SemanticVersion: 0.1.7
+        SemanticVersion: 0.1.8
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -185,7 +185,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDownloadPublicationFileApi
-        SemanticVersion: 0.1.4
+        SemanticVersion: 0.1.6
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -197,7 +197,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCustomerApi
-        SemanticVersion: 0.1.4
+        SemanticVersion: 0.1.5
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -211,7 +211,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaUsersAndRolesService
-        SemanticVersion: 0.1.2
+        SemanticVersion: 0.1.3
       Parameters:
         ApiKeySecretArn: !Ref UserServiceApiSecretArn
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
@@ -251,7 +251,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRequestsApi
-        SemanticVersion: 0.1.0
+        SemanticVersion: 0.2.2
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -259,7 +259,7 @@ Resources:
         DoiRequestsIndexName: doiRequestsByStatus
         DoiRequestsTableName: nva_resources
 
-  NvaSearchAPI: # nva-search-api+
+  NvaSearchAPI: # nva-search-api
     Type: AWS::Serverless::Application
     Properties:
       Location:
