@@ -245,7 +245,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaSearchAPI
-        SemanticVersion: 0.0.3
+        SemanticVersion: 0.0.4
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: search
