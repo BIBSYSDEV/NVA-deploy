@@ -13,6 +13,10 @@ Deployment of NVA consists of 2 templates which is used to create resources in 2
   
   Update the parent stack with the template. Done!
   
+  **If doing a full roll-out Route53 must be updated to have a CNAME pointing to the API's cloudfront domain** 
+  
+  **When doing a full roll-out o frontend check the persissions for the frontend distribution bucket,
+   a blocking policy is added**
 ***
   
   **deploy_nva_api.yml** template parameters. 
