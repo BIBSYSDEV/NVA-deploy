@@ -108,7 +108,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/PersonData
-        SemanticVersion: 0.1.4
+        SemanticVersion: 0.1.5
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -121,7 +121,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaPublicationApi
-        SemanticVersion: 0.1.12
+        SemanticVersion: 0.1.14
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -220,7 +220,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCognitoPreTokenGenerationTrigger
-        SemanticVersion: 0.1.4
+        SemanticVersion: 0.1.5
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         UserServiceSecretArn: !Ref UserServiceApiSecretArn
@@ -245,7 +245,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaSearchAPI
-        SemanticVersion: 0.0.5
+        SemanticVersion: 0.0.6
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: search
