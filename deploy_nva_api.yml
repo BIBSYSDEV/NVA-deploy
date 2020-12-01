@@ -246,7 +246,7 @@ Resources:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRegistrarClient
         SemanticVersion: 0.1.0
-      Parameters:
+      # Parameters:
       # CustomerSecretsSecretKey: 'dataCiteCustomerSecrets' # Uncomment to override default value
       # CustomerSecretsSecretName: 'dataCiteCustomerSecrets' # Uncomment to override default value
       # DataCiteMdsHost: 'mds.test.datacite.org' # Uncomment to override default value
