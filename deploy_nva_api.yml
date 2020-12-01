@@ -234,7 +234,6 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRequestsApi
         SemanticVersion: 0.2.3
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: doi-request
         DoiRequestsIndexName: doiRequestsByStatus
