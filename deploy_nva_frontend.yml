@@ -33,6 +33,9 @@ Parameters:
     Type: String
     Description: URL to ALMA Library services
     Default: '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
+  OrcidRedirectUri:
+    Type : 'AWS::SSM::Parameter::Value<String>'
+    Default: REACT_APP_ORCID_REDIRECT_URI
 
 Resources:
 
@@ -46,7 +49,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NVA-Frontend
-        SemanticVersion: 0.1.13
+        SemanticVersion: 0.1.14
       Parameters:
         AlmaApiUrl: !Ref AlmaSruHost
         AmazonCognitoDomain: !ImportValue CognitoDomain
@@ -61,5 +64,4 @@ Resources:
         OrcidBaseUrl: !Ref OrcidBaseUrl
         OrcidClientID: !Ref OrcidClientID
         OrcidClientSecret: !Ref OrcidClientSecret
-        OrcidRedirectUri: !Sub 'https://${ApplicationDomain}/user'
-
+        OrcidRedirectUri: !Ref OrcidRedirectUri
