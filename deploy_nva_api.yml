@@ -121,15 +121,14 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaPublicationApi
-        SemanticVersion: 0.1.17
+        SemanticVersion: 0.1.18
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: publication
         PublicationsTableName: 'nva_resources'
         PublicationsByOwnerIndexName: 'ByPublisher'
-        PublicationsDoiRequestsByStatusIndexName: 'doiRequestsByStatus'
         PublishedPublicationsIndexName: 'ByStatePublishedDate'
-
+        DynamoDBStreamArn: !Ref PublicationsTableStreamArn
 
   PublicationChannelRegister: # nva-channel-registry
     Type: AWS::Serverless::Application
@@ -146,7 +145,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/nva-fetch-doi
-        SemanticVersion: 0.1.8
+        SemanticVersion: 0.1.10
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -178,7 +177,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDownloadPublicationFileApi
-        SemanticVersion: 0.1.6
+        SemanticVersion: 0.1.7
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -204,7 +203,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaUsersAndRolesService
-        SemanticVersion: 0.1.3
+        SemanticVersion: 0.2.4
       Parameters:
         ApiKeySecretArn: !Ref UserServiceApiSecretArn
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
@@ -231,7 +230,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRequestsApi
-        SemanticVersion: 0.2.3
+        SemanticVersion: 0.2.4
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -245,14 +244,14 @@ Resources:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRegistrarClient
         SemanticVersion: 0.1.0
-      # Parameters:
-      # CustomerSecretsSecretKey: 'dataCiteCustomerSecrets' # Uncomment to override default value
-      # CustomerSecretsSecretName: 'dataCiteCustomerSecrets' # Uncomment to override default value
-      # DataCiteMdsHost: 'mds.test.datacite.org' # Uncomment to override default value
-      # DataCiteRestHost: 'api.test.datacite.org' # Uncomment to override default value
-      # DataCitePort: '443' # Uncomment to override default value
-      # EventBusArn: 'nvaEventBusArn' # Uncomment to override default value
-      # EventBusName: 'nvaEventBusName' # Uncomment to override default value
+        Parameters:
+         # CustomerSecretsSecretName: 'dataCiteCustomerSecrets' # Uncomment to override default value
+        # CustomerSecretsSecretKey: 'dataCiteCustomerSecrets' # Uncomment to override default value
+        # DataCiteMdsHost: 'mds.test.datacite.org' # Uncomment to override default value
+        # DataCiteRestHost: 'api.test.datacite.org' # Uncomment to override default value
+        # DataCitePort: '443' # Uncomment to override default value
+        # EventBusArn: 'nvaEventBusArn' # Uncomment to override default value
+        # EventBusName: 'nvaEventBusName' # Uncomment to override default value
 
 
   NvaSearchAPI: # nva-search-api
@@ -260,7 +259,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaSearchAPI
-        SemanticVersion: 0.0.6
+        SemanticVersion: 0.0.7
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: search
