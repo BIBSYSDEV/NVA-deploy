@@ -121,7 +121,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaPublicationApi
-        SemanticVersion: 0.1.17
+        SemanticVersion: 0.1.18
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: publication
@@ -145,7 +145,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/nva-fetch-doi
-        SemanticVersion: 0.1.8
+        SemanticVersion: 0.1.10
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -177,7 +177,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDownloadPublicationFileApi
-        SemanticVersion: 0.1.6
+        SemanticVersion: 0.1.7
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -230,7 +230,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRequestsApi
-        SemanticVersion: 0.2.3
+        SemanticVersion: 0.2.4
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -259,7 +259,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaSearchAPI
-        SemanticVersion: 0.0.6
+        SemanticVersion: 0.0.7
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: search
