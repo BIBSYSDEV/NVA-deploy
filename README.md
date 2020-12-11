@@ -139,3 +139,22 @@ For viewing structured information about Organisations in Cristin. Basically, th
 **If a DynamoDB table external to the template has changed**
 
 Update the table using the CloudFormation template (do this) or apply the changes manually (don't do this). Make sure to backup any existing data first.
+
+---
+### Notes ###
+
+#### "Deploy_uke_50"  - 2020-12-09 #### 
+
+To make AWS Datapipeline work we need a ‘Default VPC’ and 2 roles; DataPipelineDefaultRole and DataPipelineDefaultResourceRole as described in https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html
+
+‘Default VPC’ is easiest to create via VPC console - one time operation pr environment!
+
+Updated settings in parameter store manager:
+
+REACT_APP_ORCID_REDIRECT_URI=XXXX/my-profile
+
+nvaEventBusArn
+
+nvaEventBusName
+
+dataCiteCusomerSecrets i secrets manager
