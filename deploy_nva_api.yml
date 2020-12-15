@@ -230,7 +230,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRequestsApi
-        SemanticVersion: 0.2.5
+        SemanticVersion: 0.2.6
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -238,12 +238,12 @@ Resources:
         DoiRequestsIndexName: doiRequestsByStatus
         DoiRequestsTableName: nva_resources
 
-  NvaDoiRegistrarClient:
+  NvaDoiRegistrarClient:  # nva-doi-registrar-client
     Type: AWS::Serverless::Application
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRegistrarClient
-        SemanticVersion: 0.1.1
+        SemanticVersion: 0.1.3
         Parameters:
          # CustomerSecretsSecretName: 'dataCiteCustomerSecrets' # Uncomment to override default value
         # CustomerSecretsSecretKey: 'dataCiteCustomerSecrets' # Uncomment to override default value
