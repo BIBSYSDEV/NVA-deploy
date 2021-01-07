@@ -96,7 +96,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/UploadMultipart
-        SemanticVersion: 0.1.7
+        SemanticVersion: 0.1.8
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -121,7 +121,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaPublicationApi
-        SemanticVersion: 0.1.19
+        SemanticVersion: 0.1.20
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: publication
@@ -145,7 +145,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/nva-fetch-doi
-        SemanticVersion: 0.1.10
+        SemanticVersion: 0.1.11
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -230,7 +230,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRequestsApi
-        SemanticVersion: 0.2.6
+        SemanticVersion: 0.2.7
       Parameters:
         CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
