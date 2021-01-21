@@ -243,16 +243,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRegistrarClient
-        SemanticVersion: 0.1.4
-        Parameters:
-         # CustomerSecretsSecretName: 'dataCiteCustomerSecrets' # Uncomment to override default value
-        # CustomerSecretsSecretKey: 'dataCiteCustomerSecrets' # Uncomment to override default value
-        # DataCiteMdsHost: 'mds.test.datacite.org' # Uncomment to override default value
-        # DataCiteRestHost: 'api.test.datacite.org' # Uncomment to override default value
-        # DataCitePort: '443' # Uncomment to override default value
-        # EventBusArn: 'nvaEventBusArn' # Uncomment to override default value
-        # EventBusName: 'nvaEventBusName' # Uncomment to override default value
-
+        SemanticVersion: 0.1.5
 
   NvaSearchAPI: # nva-search-api
     Type: AWS::Serverless::Application
