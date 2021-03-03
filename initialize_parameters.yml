@@ -1,0 +1,139 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template for parameters and secrets
+
+Parameters:
+
+  AlmaSruHost:
+    Type: String
+    Description: Hostname of Alma-SRU service
+    Default: bibsys.alma.exlibrisgroup.com/view/sru/47BIBSYS_NETWORK
+
+  ApiDomainName:
+    Type: String
+    Description: Hostname for API Gateway Custom Domain
+    Default: api.<phase>.nva.aws.unit.no
+
+  ApiDomainCertificateArn:
+    Type: String
+    Description: ARN for the certificate covering the  ApiDomainName in API Gateway
+
+  BackendApiUrl: # AKA BackendDomainURL, BackendDomain
+    Type: String
+    Description: URL for backend API
+    Default: https://api.dev.nva.aws.unit.no
+
+  BareHost:
+    Type: String
+    Description: Hostname for BARE API
+    Default: alfa-a.bibsys.no
+
+  CognitoAuthorizerArn:
+    Type: String
+    Description: ARN Identifier of the UserPool
+    Default: arn:aws:cognito-idp:eu-west-1:884807050265:userpool/eu-west-1_cUIeoC2FS
+
+  CognitoDomain: # AKA AmazonCognitoDomain:
+    Type: String
+    Description: Host/Domainname for NVA Cognito login
+    Default: nva-develop.auth.eu-west-1.amazoncognito.com
+
+  CognitoIdentityPoolId:
+    Type: String
+    Description: Identifier of the IdentityPool assosiated with the UserPool
+    Default: eu-west-1:b8e7fd05-9a52-43cc-8c45-d8270d24a388
+
+  CognitoUserPoolId:    # AKA UserPoolId
+    Type: String
+    Description: Identifier of the UserPool in Cognito
+    Default: eu-west-1_cUIeoC2FS
+
+  CognitoUserPoolAppClientId:
+    Type: String
+    Description: Identifier to use for the app clients to access this user pool
+    Default: 2jpilc64hb25r1hj41p0hsfc0l
+
+
+Resources:
+
+  AlmaSruHostParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Hostname of Alma-SRU service
+      Name: AlmaSruHost
+      Type: String
+      Value: !Ref AlmaSruHost
+
+  ApiDomainNameParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Hostname for API Gateway Custom Domain
+      Name: ApiDomainName
+      Type: String
+      Value: !Ref ApiDomainName
+
+  ApiDomainCertificateArnParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: ARN for the certificate covering the API host/domain/API Gateway Custom Domain
+      Name: ApiDomainCertificateArn
+      Type: String
+      Value: !Ref ApiDomainCertificateArn
+
+  BareHostParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Hostname for BARE API
+      Name: BareHost
+      Type: String
+      Value: !Ref BareHost
+
+  BackendDomainURLParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: URL for backend API
+      Name: BackendApiUrl
+      Type: String
+      Value: !Ref BackendApiUrl
+
+
+  CognitoAuthorizerArnParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: ARN Identifier of the UserPool
+      Name: CognitoAuthorizerArn
+      Type: String
+      Value: !Ref CognitoAuthorizerArn
+
+  CognitoDomainParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Host/Domainname for NVA Cognito login
+      Name: CognitoDomain
+      Type: String
+      Value: !Ref CognitoDomain
+
+  CognitoIdentityPoolIdParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Identifier of the IdentityPool assosiated with the UserPool
+      Name: BackendDomain
+      Type: String
+      Value: !Ref CognitoIdentityPoolId
+
+  CognitoUserPoolIdParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Identifier of the UserPool in Cognito
+      Name: CognitoUserPoolId
+      Type: String
+      Value: !Ref CognitoUserPoolId
+
+  CognitoUserPoolAppClientIdParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Identifier to use for the app clients to access this user pool
+      Name: CognitoUserPoolAppClientId
+      Type: String
+      Value: !Ref CognitoUserPoolAppClientId
+
+
