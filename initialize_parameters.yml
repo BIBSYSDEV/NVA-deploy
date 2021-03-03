@@ -17,10 +17,24 @@ Parameters:
     Type: String
     Description: ARN for the certificate covering the  ApiDomainName in API Gateway
 
+  ApplicationDomain:
+    Type: String
+    Description: Domainname for the frontend
+    Default: frontend.<phase>.nva.aws.unit.no
+
+  ApplicationDomainCertificateArn:
+    Type: String
+    Description: ARN for the certificate covering the ApplicationDomain
+
   BackendApiUrl: # AKA BackendDomainURL, BackendDomain
     Type: String
     Description: URL for backend API
     Default: https://api.dev.nva.aws.unit.no
+
+  BareApiKey:
+    Type: String
+    Description: Key to access bare
+    NoEcho: true
 
   BareHost:
     Type: String
@@ -52,6 +66,29 @@ Parameters:
     Description: Identifier to use for the app clients to access this user pool
     Default: 2jpilc64hb25r1hj41p0hsfc0l
 
+  OrcidBaseUrl:
+    Type: String
+    Description: URL to OrcId service
+    Default: https://sandbox.orcid.org
+
+  OrcidClientId:
+    Type: String
+    Description: ClientId to use for accessing OrcidBaseUrl
+    Default: https://sandbox.orcid.org
+    NoEcho: True
+
+  OrcidClientSecret:
+    Type: String
+    Description: Secret to use for accessing OrcidBaseUrl
+    NoEcho: True
+
+  PublicationsTableStreamArn:
+    Type: String
+    Description: ARN of PublicationsTableStream
+
+  UserServiceApiSecretArn:
+    Type: String
+    Description: ARN of secret for UserService
 
 Resources:
 
@@ -78,6 +115,29 @@ Resources:
       Name: ApiDomainCertificateArn
       Type: String
       Value: !Ref ApiDomainCertificateArn
+
+  ApplicationDomainParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Domainname for the frontend
+      Name: ApplicationDomain
+      Type: String
+      Value: !Ref ApplicationDomain
+
+  ApplicationDomainCertificateArnParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: ARN for the certificate covering the ApplicationDomain
+      Name: ApplicationDomainCertificateArn
+      Type: String
+      Value: !Ref ApplicationDomainCertificateArn
+
+  BareApiKeyParameter:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: Hostname for BARE API
+      Name: BareApiKey
+      SecretString: !Ref BareApiKey
 
   BareHostParameter:
     Type: AWS::SSM::Parameter
@@ -136,4 +196,41 @@ Resources:
       Type: String
       Value: !Ref CognitoUserPoolAppClientId
 
+  OrcidBaseUrlParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: URL to OrcId service
+      Name: OrcidBaseUrl
+      Type: String
+      Value: !Ref OrcidBaseUrl
+
+  OrcidClientIdParameter:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: ClientId to use for accessing OrcidBaseUrl
+      Name: OrcidClientId
+      SecretString: !Ref OrcidClientId
+
+  OrcidClientSecretParameter:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: Secret to use for accessing OrcidBaseUrl
+      Name: OrcidClientSecret
+      SecretString: !Ref OrcidClientSecret
+
+  PublicationsTableStreamArnParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: ARN of PublicationsTableStream
+      Name: PublicationsTableStreamArn
+      Type: String
+      Value: !Ref PublicationsTableStreamArn
+
+  UserServiceApiSecretArnParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: ARN of secret for UserService
+      Name: UserServiceApiSecretArn
+      Type: String
+      Value: !Ref UserServiceApiSecretArn
 

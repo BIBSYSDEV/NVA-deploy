@@ -5,20 +5,20 @@ Description: v1.1 Deployment of Frontend NVA
 Parameters:
 
   ApplicationDomainCertificateArn:
-    Type: String
+    Type : AWS::SSM::Parameter::Value<String>
     Description: ARN  of certificate to assign to the assosiated Domain
-    Default: '{{resolve:secretsmanager:ApplicationDomainCertificateArn:SecretString}}'
+    Default: ApplicationDomainCertificateArn  #'{{resolve:secretsmanager:ApplicationDomainCertificateArn:SecretString}}'
   ApplicationDomain:
-    Type: String
+    Type: AWS::SSM::Parameter::Value<String>
     Description: |
       Base part of the domain the stack and components will be deployed to. Must be covered by the certificate.
       Could be somethoing like .test.aws.unit.no or np-733.test.aws.no.
       Used to calculate the other addresses in the deployment
-    Default: '{{resolve:secretsmanager:ApplicationDomain:SecretString}}'
+    Default: ApplicationDomain #  '{{resolve:secretsmanager:ApplicationDomain:SecretString}}'
   OrcidBaseUrl:
-    Type: String
+    Type: AWS::SSM::Parameter::Value<String>
     Description: Address to ORCID services
-    Default: '{{resolve:secretsmanager:OrcidBaseUrl:SecretString}}'
+    Default: OrcidBaseUrl  # '{{resolve:secretsmanager:OrcidBaseUrl:SecretString}}'
   OrcidClientID:
     Type: String
     Description: Clientid for ORCID
@@ -31,11 +31,26 @@ Parameters:
     Default: '{{resolve:secretsmanager:OrcidClientSecret:SecretString}}'
   AlmaSruHost:
     Type: String
-    Description: URL to ALMA Library services
-    Default: '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
+    Description: AWS::SSM::Parameter::Value<String>
+    Default: AlmaSruHost  # '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
   OrcidRedirectUri:
-    Type : 'AWS::SSM::Parameter::Value<String>'
+    Type : AWS::SSM::Parameter::Value<String>
     Default: REACT_APP_ORCID_REDIRECT_URI
+  CognitoDomain:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: CognitoDomain
+  BackendDomainURL:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: BackendDomainURL
+  CognitoIdentityPoolId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: CognitoIdentityPoolId
+  CognitoUserPoolId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: CognitoUserPoolId
+  CognitoUserPoolAppClientId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: CognitoUserPoolAppClientId
 
 Resources:
 
@@ -52,13 +67,13 @@ Resources:
         SemanticVersion: 0.1.20
       Parameters:
         AlmaApiUrl: !Ref AlmaSruHost
-        AmazonCognitoDomain: !ImportValue CognitoDomain
+        AmazonCognitoDomain: !Ref CognitoDomain
         FrontendDomain: !Ref ApplicationDomain
-        BackendDomain: !ImportValue BackendDomainURL
+        BackendDomain: !Ref BackendDomainURL
         DomainCertificateArn: !Ref ApplicationDomainCertificateArn
-        CognitoIdentityPoolId: !ImportValue CognitoIdentityPoolId
-        UserPoolId: !ImportValue CognitoUserPoolId
-        UserPoolAppClientId: !ImportValue CognitoUserPoolAppClientId
+        CognitoIdentityPoolId: !Ref CognitoIdentityPoolId
+        UserPoolId: !Ref CognitoUserPoolId
+        UserPoolAppClientId: !Ref CognitoUserPoolAppClientId
         RedirectSignInUrl: !Sub 'https://${ApplicationDomain}'
         RedirectSignOutUrl: !Sub 'https://${ApplicationDomain}/logout'
         OrcidBaseUrl: !Ref OrcidBaseUrl
