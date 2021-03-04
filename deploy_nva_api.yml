@@ -1,52 +1,52 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
-Description: v1.2 Deployment of Backend API NVA
+Description: v1.3 Deployment of Backend API NVA, no importvalues
 
 Parameters:
 
-  CognitoAuthorizerArn:
+  AlmaSruHost:
     Type: AWS::SSM::Parameter::Value<String>
-    Default: CognitoAuthorizerArn
-  ApiDomainCertificate:
-    Description: ARN  of certificate to assign to custom-domain
+    Description: Key to get address to Alma-SRU
+    Default: AlmaSruHost
+  ApiDomainCertificateArn:
+    Description: Key to get ARN  of certificate to assign to custom-domain
     Type: AWS::SSM::Parameter::Value<String>
-    Default: ApiDomainCertificate
+    Default: ApiDomainCertificateArn
   ApiDomainName:
     Type: AWS::SSM::Parameter::Value<String>
-    Description: What is the custom-domain
+    Description: Key to get the custom-domain
     Default: ApiDomainName
   BareApiKey:
     Type: String
     Description: Key to access bare
     NoEcho: true
-    Default: '{{resolve:secretsmanager:bareApiKey:SecretString}}'
+    Default: '{{resolve:secretsmanager:BareApiKey:SecretString}}'
   BareHost:
     Type: AWS::SSM::Parameter::Value<String>
-    Description: Address to bare
+    Description: Key to get address to bare
     Default: BareHost
-  AlmaSruHost:
+  CognitoAuthorizerArn:
     Type: AWS::SSM::Parameter::Value<String>
-    Description: Address to Alma-SRU
-    Default: AlmaSruHost
+    Default: CognitoAuthorizerArn
+  NVAResourceStorageBucket:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Name of S3 Bucket containing NVA resource files
+    Default: NVAResourceStorageBucket
   PublicationsTableStreamArn:
     Type: AWS::SSM::Parameter::Value<String>
-    Description: ARN of DynamoDB stream events for publications
+    Description: Key to get ARN of DynamoDB stream events for publications
     Default: PublicationsTableStreamArn
   # Probably should refactor UserServiceApi* to use AWS IAM here for protecting calls in
   #  between services.
   UserServiceApiSecretArn:
     Type: AWS::SSM::Parameter::Value<String>
-    Description: ARN for resource in SecretManager for accessing user service (nva-user-access-service)
+    Description: Key to get ARN for resource in SecretManager for accessing user service (nva-user-access-service)
     Default: UserServiceApiSecretArn
     # Secret must be named UserCatalogueApiKey
     # and contain the key: ApiKey (nva-user-access-service requirements)
     # This value should be something like: arn:aws:secretsmanager:eu-west-1:<service-account-id>:secret:UserServiceApiKey-######
     # But you need to create the secret manually in each environment and referer to it here in the template.
 
-  NVAResourceStorageBucket:
-    Type: AWS::SSM::Parameter::Value<String>
-    Description: Name of S3 Bucket containing NVA resource files
-    Default: NVAResourceStorageBucket
 
 
 Resources:
@@ -59,7 +59,7 @@ Resources:
     Type: AWS::ApiGateway::DomainName
     Properties:
       DomainName: !Ref ApiDomainName
-      CertificateArn: !Ref ApiDomainCertificate
+      CertificateArn: !Ref ApiDomainCertificateArn
 
   # ===============================
   #  Allow logging from API Gateway

@@ -11,7 +11,7 @@ Parameters:
   ApiDomainName:
     Type: String
     Description: Hostname for API Gateway Custom Domain
-    Default: api.<phase>.nva.aws.unit.no
+    Default: api.host.nva.aws.unit.no
 
   ApiDomainCertificateArn:
     Type: String
@@ -20,7 +20,7 @@ Parameters:
   ApplicationDomain:
     Type: String
     Description: Domainname for the frontend
-    Default: frontend.<phase>.nva.aws.unit.no
+    Default: frontend.host.nva.aws.unit.no
 
   ApplicationDomainCertificateArn:
     Type: String
@@ -29,11 +29,11 @@ Parameters:
   BackendApiUrl: # AKA BackendDomainURL, BackendDomain
     Type: String
     Description: URL for backend API
-    Default: https://api.dev.nva.aws.unit.no
+    Default: https://api.host.nva.aws.unit.no
 
   BareApiKey:
     Type: String
-    Description: Key to access bare
+    Description: Key to access BARE API
     NoEcho: true
 
   BareHost:
@@ -49,7 +49,7 @@ Parameters:
   CognitoDomain: # AKA AmazonCognitoDomain:
     Type: String
     Description: Host/Domainname for NVA Cognito login
-    Default: nva-develop.auth.eu-west-1.amazoncognito.com
+    Default: nva-host.auth.eu-west-1.amazoncognito.com
 
   CognitoIdentityPoolId:
     Type: String
@@ -66,21 +66,25 @@ Parameters:
     Description: Identifier to use for the app clients to access this user pool
     Default: 2jpilc64hb25r1hj41p0hsfc0l
 
+  NVAResourceStorageBucket:
+    Type: String
+    Description: Name of S3 Bucket storing NVA Resources
+
   OrcidBaseUrl:
     Type: String
     Description: URL to OrcId service
     Default: https://sandbox.orcid.org
 
-  OrcidClientId:
-    Type: String
-    Description: ClientId to use for accessing OrcidBaseUrl
-    Default: https://sandbox.orcid.org
-    NoEcho: True
-
-  OrcidClientSecret:
-    Type: String
-    Description: Secret to use for accessing OrcidBaseUrl
-    NoEcho: True
+#  OrcidClientId:
+#    Type: String
+#    Description: ClientId to use for accessing OrcidBaseUrl
+#    Default: https://sandbox.orcid.org
+#    NoEcho: True
+#
+#  OrcidClientSecret:
+#    Type: String
+#    Description: Secret to use for accessing OrcidBaseUrl
+#    NoEcho: True
 
   PublicationsTableStreamArn:
     Type: String
@@ -135,7 +139,7 @@ Resources:
   BareApiKeyParameter:
     Type: AWS::SecretsManager::Secret
     Properties:
-      Description: Hostname for BARE API
+      Description: Key to access BARE API
       Name: BareApiKey
       SecretString: !Ref BareApiKey
 
@@ -176,7 +180,7 @@ Resources:
     Type: AWS::SSM::Parameter
     Properties:
       Description: Identifier of the IdentityPool assosiated with the UserPool
-      Name: BackendDomain
+      Name: CognitoIdentityPoolId
       Type: String
       Value: !Ref CognitoIdentityPoolId
 
@@ -187,6 +191,14 @@ Resources:
       Name: CognitoUserPoolId
       Type: String
       Value: !Ref CognitoUserPoolId
+
+  NVAResourceStorageBucketParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Name of S3 Bucket storing NVA Resources
+      Name: NVAResourceStorageBucket
+      Type: String
+      Value: !Ref NVAResourceStorageBucket
 
   CognitoUserPoolAppClientIdParameter:
     Type: AWS::SSM::Parameter
@@ -204,19 +216,19 @@ Resources:
       Type: String
       Value: !Ref OrcidBaseUrl
 
-  OrcidClientIdParameter:
-    Type: AWS::SecretsManager::Secret
-    Properties:
-      Description: ClientId to use for accessing OrcidBaseUrl
-      Name: OrcidClientId
-      SecretString: !Ref OrcidClientId
-
-  OrcidClientSecretParameter:
-    Type: AWS::SecretsManager::Secret
-    Properties:
-      Description: Secret to use for accessing OrcidBaseUrl
-      Name: OrcidClientSecret
-      SecretString: !Ref OrcidClientSecret
+#  OrcidClientIdParameter:
+#    Type: AWS::SecretsManager::Secret
+#    Properties:
+#      Description: ClientId to use for accessing OrcidBaseUrl
+#      Name: OrcidClientId
+#      SecretString: !Ref OrcidClientId
+#
+#  OrcidClientSecretParameter:
+#    Type: AWS::SecretsManager::Secret
+#    Properties:
+#      Description: Secret to use for accessing OrcidBaseUrl
+#      Name: OrcidClientSecret
+#      SecretString: !Ref OrcidClientSecret
 
   PublicationsTableStreamArnParameter:
     Type: AWS::SSM::Parameter
