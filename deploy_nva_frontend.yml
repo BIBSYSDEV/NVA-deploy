@@ -6,18 +6,18 @@ Parameters:
   AlmaSruHost:
     Type: String
     Description: AWS::SSM::Parameter::Value<String>
-    Default: AlmaSruHost  # '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
+    Default: AlmaSruHost
   ApplicationDomain:
     Type: AWS::SSM::Parameter::Value<String>
     Description: |
       Base part of the domain the stack and components will be deployed to. Must be covered by the certificate.
       Could be somethoing like .test.aws.unit.no or np-733.test.aws.no.
       Used to calculate the other addresses in the deployment
-    Default: ApplicationDomain #  '{{resolve:secretsmanager:ApplicationDomain:SecretString}}'
+    Default: ApplicationDomain
   ApplicationDomainCertificateArn:
     Type : AWS::SSM::Parameter::Value<String>
     Description: ARN  of certificate to assign to the assosiated Domain
-    Default: ApplicationDomainCertificateArn  #'{{resolve:secretsmanager:ApplicationDomainCertificateArn:SecretString}}'
+    Default: ApplicationDomainCertificateArn
   BackendApiUrl:
     Type: AWS::SSM::Parameter::Value<String>
     Default: BackendApiUrl
@@ -37,7 +37,7 @@ Parameters:
   OrcidBaseUrl:
     Type: AWS::SSM::Parameter::Value<String>
     Description: Address to ORCID services
-    Default: OrcidBaseUrl  # '{{resolve:secretsmanager:OrcidBaseUrl:SecretString}}'
+    Default: OrcidBaseUrl
   OrcidClientID:
     Type: String
     Description: Clientid for ORCID
