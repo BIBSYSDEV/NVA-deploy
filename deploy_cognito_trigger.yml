@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: v1.0 Deploy NvaCognitoPreTokenGenerationTrigger from SAR
+
+Parameters:
+
+  ApiDomainName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Key to get the custom-domain
+    Default: ApiDomainName
+  UserServiceSecretName:
+    Type: String
+    Description: Name of the Secret for Users and Role Service
+    Default: UserCatalogueApiKey
+  UserServiceSecretKey:
+    Type: String
+    Description: Key in the Secret for Users and Role Service
+    Default: ApiKey
+  UserServiceSecretArn:
+    Type: String
+    Description: ARN to the Secret for Users and Role Service
+  OutputName:
+    Type: String
+    Default: CognitoPreTokenGenerationFunctionArn
+  MaxConcurrency:
+    Type: String
+    Description: Maximum capacity for provisioned concurrency
+    Default: 10
+  MinConcurrency:
+    Type: String
+    Description: Minimum capacity for provisioned concurrency
+    Default: 1
+
+Resources:
+
+  NvaCognitoPreTokenGenerationTrigger: # nva-cognito-pre-token-generation-trigger
+    Type: AWS::Serverless::Application
+    Properties:
+      Location:
+        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCognitoPreTokenGenerationTrigger
+        SemanticVersion: 0.1.6
+      Parameters:
+        CustomDomain: !Ref ApiDomainName
+        UserServiceSecretArn: !Ref UserServiceSecretArn
+        UserServiceSecretKey: !Ref UserServiceSecretKey
+        UserServiceSecretName: !Ref UserServiceSecretName
+        OutputName: !Ref OutputName
+        MaxConcurrency: !Ref MaxConcurrency
+        MinConcurrency: !Ref MinConcurrency
