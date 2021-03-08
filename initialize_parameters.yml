@@ -41,6 +41,21 @@ Parameters:
     Description: Hostname for BARE API
     Default: alfa-a.bibsys.no
 
+  CognitoAuthenticationDomainPrefix:
+    Type: String
+    Description: The prefix for the Cognito domain that hosts the sign-up and sign-in pages for your application.
+    Default: nva-stage
+
+  CognitoFrontendApplicationUrl:
+    Type: String
+    Description: A base URL for the callbacks for the identity providers.
+    Default: 'https://frontend.dev.nva.aws.unit.no'
+
+  FeideMetadataUrl:
+    Type: String
+    Description: Link to the the identity provider details.
+    Default: 'https://idp-test.feide.no/simplesaml/saml2/idp/metadata.php'
+
   NVAResourceStorageBucket:
     Type: String
     Description: Name of S3 Bucket storing NVA Resources
@@ -122,6 +137,30 @@ Resources:
       Name: BackendApiUrl
       Type: String
       Value: !Ref BackendApiUrl
+
+  CognitoAuthenticationDomainPrefixParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: The prefix for the Cognito domain that hosts the sign-up and sign-in pages for your application.
+      Name: CognitoAuthenticationDomainPrefix
+      Type: String
+      Value: !Ref CognitoAuthenticationDomainPrefix
+
+  CognitoFrontendApplicationUrlParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: A base URL for the callbacks for the identity providers.
+      Name: CognitoFrontendApplicationUrl
+      Type: String
+      Value: !Ref CognitoFrontendApplicationUrl
+
+  FeideMetadataUrlParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Link to the the identity provider details.
+      Name: FeideMetadataUrl
+      Type: String
+      Value: !Ref FeideMetadataUrl
 
   NVAResourceStorageBucketParameter:
     Type: AWS::SSM::Parameter
