@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: CloudFormation template for parameters and secrets
+Description: CloudFormation template for parameters and secrets not set by originating templates and services
 
 Parameters:
 
@@ -41,31 +41,6 @@ Parameters:
     Description: Hostname for BARE API
     Default: alfa-a.bibsys.no
 
-  CognitoAuthorizerArn:
-    Type: String
-    Description: ARN Identifier of the UserPool
-    Default: arn:aws:cognito-idp:eu-west-1:884807050265:userpool/eu-west-1_cUIeoC2FS
-
-  CognitoDomain: # AKA AmazonCognitoDomain:
-    Type: String
-    Description: Host/Domainname for NVA Cognito login
-    Default: nva-host.auth.eu-west-1.amazoncognito.com
-
-  CognitoIdentityPoolId:
-    Type: String
-    Description: Identifier of the IdentityPool assosiated with the UserPool
-    Default: eu-west-1:b8e7fd05-9a52-43cc-8c45-d8270d24a388
-
-  CognitoUserPoolId:    # AKA UserPoolId
-    Type: String
-    Description: Identifier of the UserPool in Cognito
-    Default: eu-west-1_cUIeoC2FS
-
-  CognitoUserPoolAppClientId:
-    Type: String
-    Description: Identifier to use for the app clients to access this user pool
-    Default: 2jpilc64hb25r1hj41p0hsfc0l
-
   NVAResourceStorageBucket:
     Type: String
     Description: Name of S3 Bucket storing NVA Resources
@@ -74,17 +49,6 @@ Parameters:
     Type: String
     Description: URL to OrcId service
     Default: https://sandbox.orcid.org
-
-#  OrcidClientId:
-#    Type: String
-#    Description: ClientId to use for accessing OrcidBaseUrl
-#    Default: https://sandbox.orcid.org
-#    NoEcho: True
-#
-#  OrcidClientSecret:
-#    Type: String
-#    Description: Secret to use for accessing OrcidBaseUrl
-#    NoEcho: True
 
   PublicationsTableStreamArn:
     Type: String
@@ -159,39 +123,6 @@ Resources:
       Type: String
       Value: !Ref BackendApiUrl
 
-
-  CognitoAuthorizerArnParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: ARN Identifier of the UserPool
-      Name: CognitoAuthorizerArn
-      Type: String
-      Value: !Ref CognitoAuthorizerArn
-
-  CognitoDomainParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Host/Domainname for NVA Cognito login
-      Name: CognitoDomain
-      Type: String
-      Value: !Ref CognitoDomain
-
-  CognitoIdentityPoolIdParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Identifier of the IdentityPool assosiated with the UserPool
-      Name: CognitoIdentityPoolId
-      Type: String
-      Value: !Ref CognitoIdentityPoolId
-
-  CognitoUserPoolIdParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Identifier of the UserPool in Cognito
-      Name: CognitoUserPoolId
-      Type: String
-      Value: !Ref CognitoUserPoolId
-
   NVAResourceStorageBucketParameter:
     Type: AWS::SSM::Parameter
     Properties:
@@ -200,14 +131,6 @@ Resources:
       Type: String
       Value: !Ref NVAResourceStorageBucket
 
-  CognitoUserPoolAppClientIdParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Identifier to use for the app clients to access this user pool
-      Name: CognitoUserPoolAppClientId
-      Type: String
-      Value: !Ref CognitoUserPoolAppClientId
-
   OrcidBaseUrlParameter:
     Type: AWS::SSM::Parameter
     Properties:
@@ -215,20 +138,6 @@ Resources:
       Name: OrcidBaseUrl
       Type: String
       Value: !Ref OrcidBaseUrl
-
-#  OrcidClientIdParameter:
-#    Type: AWS::SecretsManager::Secret
-#    Properties:
-#      Description: ClientId to use for accessing OrcidBaseUrl
-#      Name: OrcidClientId
-#      SecretString: !Ref OrcidClientId
-#
-#  OrcidClientSecretParameter:
-#    Type: AWS::SecretsManager::Secret
-#    Properties:
-#      Description: Secret to use for accessing OrcidBaseUrl
-#      Name: OrcidClientSecret
-#      SecretString: !Ref OrcidClientSecret
 
   PublicationsTableStreamArnParameter:
     Type: AWS::SSM::Parameter
