@@ -214,7 +214,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaUsersAndRolesService
-        SemanticVersion: 0.2.4
+        SemanticVersion: 0.3.0
       Parameters:
         ApiKeySecretArn: !Ref UserServiceApiSecretArn
         CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
