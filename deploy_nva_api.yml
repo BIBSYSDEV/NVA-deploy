@@ -1,42 +1,53 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
-Description: v1.2 Deployment of Backend API NVA
+Description: v1.3 Deployment of Backend API NVA, no importvalues
 
 Parameters:
 
-  ApiDomainCertificate:
-    Type: String
-    Description: ARN  of certificate to assign to custom-domain
-    Default: '{{resolve:secretsmanager:ApiDomainCertificate:SecretString}}'
+  AlmaSruHost:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Key to get address to Alma-SRU
+    Default: AlmaSruHost
+  ApiDomainCertificateArn:
+    Description: Key to get ARN  of certificate to assign to custom-domain
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: ApiDomainCertificateArn
   ApiDomainName:
-    Type: String
-    Description: What is the custom-domain
-    Default: '{{resolve:secretsmanager:ApiDomainName:SecretString}}'
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Key to get the custom-domain
+    Default: ApiDomainName
   BareApiKey:
     Type: String
     Description: Key to access bare
     NoEcho: true
-    Default: '{{resolve:secretsmanager:bareApiKey:SecretString}}'
+    Default: '{{resolve:secretsmanager:BareApiKey:SecretString}}'
   BareHost:
-    Type: String
-    Description: Address to bare
-    Default: '{{resolve:secretsmanager:BareHost:SecretString}}'
-  AlmaSruHost:
-    Type: String
-    Description: Address to Alma-SRU
-    Default: '{{resolve:secretsmanager:AlmaSruHost:SecretString}}'
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Key to get address to bare
+    Default: BareHost
+  CognitoAuthorizerArn:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: CognitoAuthorizerArn
+  NVAResourceStorageBucket:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Name of S3 Bucket containing NVA resource files
+    Default: NVAResourceStorageBucket
   PublicationsTableStreamArn:
-    Type: String
-    Description: ARN of DynamoDB stream events for publications
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Key to get ARN of DynamoDB stream events for publications
+    Default: PublicationsTableStreamArn
   # Probably should refactor UserServiceApi* to use AWS IAM here for protecting calls in
   #  between services.
   UserServiceApiSecretArn:
-    Type: String
-    Description: ARN for resource in SecretManager for accessing user service (nva-user-access-service)
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Key to get ARN for resource in SecretManager for accessing user service (nva-user-access-service)
+    Default: UserServiceApiSecretArn
     # Secret must be named UserCatalogueApiKey
     # and contain the key: ApiKey (nva-user-access-service requirements)
     # This value should be something like: arn:aws:secretsmanager:eu-west-1:<service-account-id>:secret:UserServiceApiKey-######
     # But you need to create the secret manually in each environment and referer to it here in the template.
+
+
 
 Resources:
 
@@ -48,7 +59,7 @@ Resources:
     Type: AWS::ApiGateway::DomainName
     Properties:
       DomainName: !Ref ApiDomainName
-      CertificateArn: !Ref ApiDomainCertificate
+      CertificateArn: !Ref ApiDomainCertificateArn
 
   # ===============================
   #  Allow logging from API Gateway
@@ -86,7 +97,7 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/SruLastPublication
         SemanticVersion: 0.1.3
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: alma
         AlmaSruHost: !Ref AlmaSruHost
@@ -98,10 +109,10 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/UploadMultipart
         SemanticVersion: 0.1.9
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: upload
-        S3UploadBucket: !ImportValue NVAResourceStorageBucket #  nva-storage-test # S3 Bucket to upload files to  - refer to template?
+        S3UploadBucket: !Ref NVAResourceStorageBucket #  nva-storage-test # S3 Bucket to upload files to  - refer to template?
 
   PersonData: # nva-bare-proxy
     Type: AWS::Serverless::Application
@@ -110,7 +121,7 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/PersonData
         SemanticVersion: 0.1.5
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: person
         BareApiKey: !Ref BareApiKey
@@ -147,7 +158,7 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/nva-fetch-doi
         SemanticVersion: 0.1.15
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: doi-fetch
 
@@ -158,7 +169,7 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/Projects
         SemanticVersion: 0.1.3
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: project
 
@@ -179,10 +190,10 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDownloadPublicationFileApi
         SemanticVersion: 0.1.10
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: download
-        S3Bucket: !ImportValue NVAResourceStorageBucket
+        S3Bucket: !Ref NVAResourceStorageBucket
 
   NvaCustomerApi: # nva-customer-api
     Type: AWS::Serverless::Application
@@ -191,7 +202,7 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCustomerApi
         SemanticVersion: 0.1.6
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: customer
         CustomersTableName: nva_customers
@@ -206,24 +217,12 @@ Resources:
         SemanticVersion: 0.2.4
       Parameters:
         ApiKeySecretArn: !Ref UserServiceApiSecretArn
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         ExternalApiBasePath: users-roles
         InternalApiBasePath: users-roles-internal
         UsersAndRolesTableName: UsersAndRolesTable
         StageName: Prod
-
-  NvaCognitoPreTokenGenerationTrigger: # nva-cognito-pre-token-generation-trigger
-    Type: AWS::Serverless::Application
-    Properties:
-      Location:
-        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCognitoPreTokenGenerationTrigger
-        SemanticVersion: 0.1.5
-      Parameters:
-        CustomDomain: !Ref ApiCustomDomain
-        UserServiceSecretArn: !Ref UserServiceApiSecretArn
-        UserServiceSecretKey: ApiKey
-        UserServiceSecretName: UserCatalogueApiKey
 
   NvaDoiRequestsApi: # nva-doi-requests-api
     Type: AWS::Serverless::Application
@@ -232,7 +231,7 @@ Resources:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRequestsApi
         SemanticVersion: 0.2.9
       Parameters:
-        CognitoAuthorizerArn: !ImportValue CognitoAuthorizerArn
+        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: doi-request
         DoiRequestsIndexName: doiRequestsByStatus
