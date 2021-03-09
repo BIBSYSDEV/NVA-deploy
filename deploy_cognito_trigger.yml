@@ -17,8 +17,9 @@ Parameters:
     Description: Key in the Secret for Users and Role Service
     Default: ApiKey
   UserServiceSecretArn:
-    Type: String
+    Type: AWS::SSM::Parameter::Value<String>
     Description: ARN to the Secret for Users and Role Service
+    Default: UserServiceApiSecretArn
   OutputName:
     Type: String
     Default: CognitoPreTokenGenerationFunctionArn
@@ -38,7 +39,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCognitoPreTokenGenerationTrigger
-        SemanticVersion: 0.1.6
+        SemanticVersion: 0.1.8
       Parameters:
         CustomDomain: !Ref ApiDomainName
         UserServiceSecretArn: !Ref UserServiceSecretArn
