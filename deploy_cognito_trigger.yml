@@ -22,7 +22,7 @@ Parameters:
     Default: UserServiceApiSecretArn
   OutputName:
     Type: String
-    Default: CognitoPreTokenGenerationFunctionArn
+    Default: CognitoPreTokenGenerationTriggerArn
   MaxConcurrency:
     Type: String
     Description: Maximum capacity for provisioned concurrency
