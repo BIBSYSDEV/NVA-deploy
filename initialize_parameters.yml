@@ -31,6 +31,11 @@ Parameters:
     Description: Hostname for BARE API
     Default: alfa-a.bibsys.no
 
+  CognitoFrontendApplicationUrl:
+    Type: String
+    Description: A base URL for the callbacks for the identity providers.
+    Default: 'https://frontend.dev.nva.aws.unit.no'
+
   CognitoAuthenticationDomainPrefix:
     Type: String
     Description: The prefix for the Cognito domain that hosts the sign-up and sign-in pages for your application.
@@ -137,7 +142,7 @@ Resources:
       Description: A base URL for the callbacks for the identity providers.
       Name: CognitoFrontendApplicationUrl
       Type: String
-        Value: !Join [ '.', [ 'https://frontend', !Ref CustomDomain ] ]
+        Value: !Ref CognitoFrontendApplicationUrl
 
   FeideMetadataUrlParameter:
     Type: AWS::SSM::Parameter
