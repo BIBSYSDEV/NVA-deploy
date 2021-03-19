@@ -3,33 +3,23 @@ Description: CloudFormation template for parameters and secrets not set by origi
 
 Parameters:
 
+  CustomDomain:
+    Type: String
+    Description: Value for Custom Domain.
+    Default: dev.nva.aws.unit.no
+
   AlmaSruHost:
     Type: String
     Description: Hostname of Alma-SRU service
     Default: bibsys.alma.exlibrisgroup.com/view/sru/47BIBSYS_NETWORK
 
-  ApiDomainName:
-    Type: String
-    Description: Hostname for API Gateway Custom Domain
-    Default: api.host.nva.aws.unit.no
-
   ApiDomainCertificateArn:
     Type: String
     Description: ARN for the certificate covering the  ApiDomainName in API Gateway
 
-  ApplicationDomain:
-    Type: String
-    Description: Domainname for the frontend
-    Default: frontend.host.nva.aws.unit.no
-
   ApplicationDomainCertificateArn:
     Type: String
     Description: ARN for the certificate covering the ApplicationDomain
-
-  BackendApiUrl: # AKA BackendDomainURL, BackendDomain
-    Type: String
-    Description: URL for backend API
-    Default: https://api.host.nva.aws.unit.no
 
   BareApiKey:
     Type: String
@@ -45,11 +35,6 @@ Parameters:
     Type: String
     Description: The prefix for the Cognito domain that hosts the sign-up and sign-in pages for your application.
     Default: nva-stage
-
-  CognitoFrontendApplicationUrl:
-    Type: String
-    Description: A base URL for the callbacks for the identity providers.
-    Default: 'https://frontend.dev.nva.aws.unit.no'
 
   FeideMetadataUrl:
     Type: String
@@ -89,7 +74,7 @@ Resources:
       Description: Hostname for API Gateway Custom Domain
       Name: ApiDomainName
       Type: String
-      Value: !Ref ApiDomainName
+      Value: !Join [ '.', [ 'api', !Ref CustomDomain ] ]
 
   ApiDomainCertificateArnParameter:
     Type: AWS::SSM::Parameter
@@ -105,7 +90,7 @@ Resources:
       Description: Domainname for the frontend
       Name: ApplicationDomain
       Type: String
-      Value: !Ref ApplicationDomain
+      Value: !Join [ '.', [ 'frontend', !Ref CustomDomain ] ]
 
   ApplicationDomainCertificateArnParameter:
     Type: AWS::SSM::Parameter
@@ -136,7 +121,7 @@ Resources:
       Description: URL for backend API
       Name: BackendApiUrl
       Type: String
-      Value: !Ref BackendApiUrl
+      Value: !Join [ '.', [ 'https://api', !Ref CustomDomain ] ]
 
   CognitoAuthenticationDomainPrefixParameter:
     Type: AWS::SSM::Parameter
@@ -152,7 +137,7 @@ Resources:
       Description: A base URL for the callbacks for the identity providers.
       Name: CognitoFrontendApplicationUrl
       Type: String
-      Value: !Ref CognitoFrontendApplicationUrl
+        Value: !Join [ '.', [ 'https://frontend', !Ref CustomDomain ] ]
 
   FeideMetadataUrlParameter:
     Type: AWS::SSM::Parameter
@@ -193,4 +178,29 @@ Resources:
       Name: UserServiceApiSecretArn
       Type: String
       Value: !Ref UserServiceApiSecretArn
+
+  CustomDomainParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Value for Custom Domain.
+      Name: CustomDomain
+      Type: String
+      Value: !Ref CustomDomain
+
+  EventBusNameParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Name of EventBus.
+      Name: EventBusName
+      Type: String
+      Value: default
+
+  EventBusArnParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: ARN of EventBus.
+      Name: EventBusArn
+      Type: String
+      Value: !Sub arn:aws:events:{{AWS::Region}}:{{AWS::Account}}:event-bus/default
+
 
