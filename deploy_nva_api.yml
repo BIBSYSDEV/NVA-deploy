@@ -156,7 +156,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/nva-fetch-doi
-        SemanticVersion: 0.1.15
+        SemanticVersion: 0.1.16
       Parameters:
         CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -188,7 +188,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDownloadPublicationFileApi
-        SemanticVersion: 0.1.10
+        SemanticVersion: 0.1.11
       Parameters:
         CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -200,7 +200,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCustomerApi
-        SemanticVersion: 0.1.6
+        SemanticVersion: 0.1.7
       Parameters:
         CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
@@ -214,7 +214,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaUsersAndRolesService
-        SemanticVersion: 0.3.0
+        SemanticVersion: 0.3.1
       Parameters:
         ApiKeySecretArn: !Ref UserServiceApiSecretArn
         CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
@@ -224,32 +224,19 @@ Resources:
         UsersAndRolesTableName: UsersAndRolesTable
         StageName: Prod
 
-  NvaDoiRequestsApi: # nva-doi-requests-api
-    Type: AWS::Serverless::Application
-    Properties:
-      Location:
-        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRequestsApi
-        SemanticVersion: 0.2.9
-      Parameters:
-        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
-        CustomDomain: !Ref ApiCustomDomain
-        CustomDomainBasePath: doi-request
-        DoiRequestsIndexName: doiRequestsByStatus
-        DoiRequestsTableName: nva_resources
-
   NvaDoiRegistrarClient:  # nva-doi-registrar-client
     Type: AWS::Serverless::Application
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaDoiRegistrarClient
-        SemanticVersion: 0.1.5
+        SemanticVersion: 0.1.6
 
   NvaSearchAPI: # nva-search-api
     Type: AWS::Serverless::Application
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaSearchAPI
-        SemanticVersion: 0.0.9
+        SemanticVersion: 0.0.10
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: search
