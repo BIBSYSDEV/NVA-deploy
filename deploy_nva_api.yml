@@ -127,20 +127,6 @@ Resources:
         BareApiKey: !Ref BareApiKey
         BareHost: !Ref BareHost
 
-  NvaPublicationApi:  # nva-publication-api
-    Type: AWS::Serverless::Application
-    Properties:
-      Location:
-        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaPublicationApi
-        SemanticVersion: 0.1.22
-      Parameters:
-        CustomDomain: !Ref ApiCustomDomain
-        CustomDomainBasePath: publication
-        PublicationsTableName: 'nva_resources'
-        PublicationsByOwnerIndexName: 'ByPublisher'
-        PublishedPublicationsIndexName: 'ByStatePublishedDate'
-        DynamoDBStreamArn: !Ref PublicationsTableStreamArn
-
   PublicationChannelRegister: # nva-channel-registry
     Type: AWS::Serverless::Application
     Properties:
