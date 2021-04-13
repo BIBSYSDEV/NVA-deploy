@@ -142,10 +142,8 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/nva-fetch-doi
-        SemanticVersion: 0.1.17
+        SemanticVersion: 0.1.18
       Parameters:
-        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
-        CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: doi-fetch
 
   Projects: # nva-cristin-projects
