@@ -142,7 +142,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/nva-fetch-doi
-        SemanticVersion: 0.1.18
+        SemanticVersion: 0.1.19
       Parameters:
         CustomDomainBasePath: doi-fetch
 
