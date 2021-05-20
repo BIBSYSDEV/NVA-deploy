@@ -151,9 +151,8 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/Projects
-        SemanticVersion: 0.2.0
+        SemanticVersion: 0.2.2
       Parameters:
-        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: project
 
