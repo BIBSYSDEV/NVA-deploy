@@ -21,11 +21,6 @@ Parameters:
     Type: String
     Description: ARN for the certificate covering the ApplicationDomain
 
-  BareApiKey:
-    Type: String
-    Description: Key to access BARE API
-    NoEcho: true
-
   BareHost:
     Type: String
     Description: Hostname for BARE API
@@ -113,13 +108,6 @@ Resources:
       Type: String
       Value: !Join [ '.', [ 'https://api', !Ref CustomDomain ] ]
 
-  NVAResourceStorageBucketParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Name of S3 Bucket storing NVA Resources
-      Name: NVAResourceStorageBucket
-      Type: String
-      Value: !Ref NVAResourceStorageBucket
 
   OrcidBaseUrlParameter:
     Type: AWS::SSM::Parameter
@@ -128,22 +116,6 @@ Resources:
       Name: OrcidBaseUrl
       Type: String
       Value: !Ref OrcidBaseUrl
-
-  PublicationsTableStreamArnParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: ARN of PublicationsTableStream
-      Name: PublicationsTableStreamArn
-      Type: String
-      Value: !Ref PublicationsTableStreamArn
-
-  UserServiceApiSecretArnParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: ARN of secret for UserService
-      Name: UserServiceApiSecretArn
-      Type: String
-      Value: !Ref UserServiceApiSecretArn
 
   CustomDomainParameter:
     Type: AWS::SSM::Parameter
