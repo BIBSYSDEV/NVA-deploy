@@ -115,4 +115,12 @@ Resources:
       Type: String
       Value: default
 
+  EventBusArnParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: ARN of EventBus.
+      Name: EventBusArn
+      Type: String
+      Value: !Sub arn:aws:events:${AWS::Region}:${AWS::AccountId}:event-bus/default
+
 
