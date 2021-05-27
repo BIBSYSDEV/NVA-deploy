@@ -85,12 +85,6 @@ Resources:
       Type: String
       Value: !Ref ApplicationDomainCertificateArn
 
-  BareApiKeyParameter:
-    Type: AWS::SecretsManager::Secret
-    Properties:
-      Description: Key to access BARE API
-      Name: BareApiKey
-      SecretString: !Ref BareApiKey
 
   BareHostParameter:
     Type: AWS::SSM::Parameter
