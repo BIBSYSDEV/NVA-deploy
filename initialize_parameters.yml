@@ -26,10 +26,6 @@ Parameters:
     Description: Hostname for BARE API
     Default: alfa-a.bibsys.no
 
-  NVAResourceStorageBucket:
-    Type: String
-    Description: Name of S3 Bucket storing NVA Resources
-
   OrcidBaseUrl:
     Type: String
     Description: URL to OrcId service
