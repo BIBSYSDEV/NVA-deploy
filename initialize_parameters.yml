@@ -31,14 +31,6 @@ Parameters:
     Description: URL to OrcId service
     Default: https://sandbox.orcid.org
 
-  PublicationsTableStreamArn:
-    Type: String
-    Description: ARN of PublicationsTableStream
-
-  UserServiceApiSecretArn:
-    Type: String
-    Description: ARN of secret for UserService
-
 Resources:
 
   AlmaSruHostParameter:
