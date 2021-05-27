@@ -121,6 +121,6 @@ Resources:
       Description: ARN of EventBus.
       Name: EventBusArn
       Type: String
-      Value: !Sub arn:aws:events:{{AWS::Region}}:{{AWS::Account}}:event-bus/default
+      Value: !Sub arn:aws:events:${AWS::Region}:${AWS::AccountId}:event-bus/default
 
 
