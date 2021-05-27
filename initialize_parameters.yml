@@ -21,11 +21,6 @@ Parameters:
     Type: String
     Description: ARN for the certificate covering the ApplicationDomain
 
-  BareApiKey:
-    Type: String
-    Description: Key to access BARE API
-    NoEcho: true
-
   BareHost:
     Type: String
     Description: Hostname for BARE API
