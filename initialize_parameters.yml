@@ -113,13 +113,6 @@ Resources:
       Type: String
       Value: !Join [ '.', [ 'https://api', !Ref CustomDomain ] ]
 
-  NVAResourceStorageBucketParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Name of S3 Bucket storing NVA Resources
-      Name: NVAResourceStorageBucket
-      Type: String
-      Value: !Ref NVAResourceStorageBucket
 
   OrcidBaseUrlParameter:
     Type: AWS::SSM::Parameter
@@ -128,22 +121,6 @@ Resources:
       Name: OrcidBaseUrl
       Type: String
       Value: !Ref OrcidBaseUrl
-
-  PublicationsTableStreamArnParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: ARN of PublicationsTableStream
-      Name: PublicationsTableStreamArn
-      Type: String
-      Value: !Ref PublicationsTableStreamArn
-
-  UserServiceApiSecretArnParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: ARN of secret for UserService
-      Name: UserServiceApiSecretArn
-      Type: String
-      Value: !Ref UserServiceApiSecretArn
 
   CustomDomainParameter:
     Type: AWS::SSM::Parameter
