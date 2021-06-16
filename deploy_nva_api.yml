@@ -36,18 +36,6 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
     Description: Key to get ARN of DynamoDB stream events for publications
     Default: PublicationsTableStreamArn
-  # Probably should refactor UserServiceApi* to use AWS IAM here for protecting calls in
-  #  between services.
-  UserServiceApiSecretArn:
-    Type: AWS::SSM::Parameter::Value<String>
-    Description: Key to get ARN for resource in SecretManager for accessing user service (nva-user-access-service)
-    Default: UserServiceApiSecretArn
-    # Secret must be named UserCatalogueApiKey
-    # and contain the key: ApiKey (nva-user-access-service requirements)
-    # This value should be something like: arn:aws:secretsmanager:eu-west-1:<service-account-id>:secret:UserServiceApiKey-######
-    # But you need to create the secret manually in each environment and referer to it here in the template.
-
-
 
 Resources:
 
@@ -177,35 +165,6 @@ Resources:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: download
         S3Bucket: !Ref NVAResourceStorageBucket
-
-  NvaCustomerApi: # nva-customer-api
-    Type: AWS::Serverless::Application
-    Properties:
-      Location:
-        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaCustomerApi
-        SemanticVersion: 0.1.7
-      Parameters:
-        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
-        CustomDomain: !Ref ApiCustomDomain
-        CustomDomainBasePath: customer
-        CustomersTableName: nva_customers
-        CustomersByOrgNumberIndexName: byOrgNumber
-        CustomersByCristinIdIndexName: byCristinId
-
-  NvaUsersAndRolesService: # nva-user-access-service
-    Type: AWS::Serverless::Application
-    Properties:
-      Location:
-        ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaUsersAndRolesService
-        SemanticVersion: 0.3.1
-      Parameters:
-        ApiKeySecretArn: !Ref UserServiceApiSecretArn
-        CognitoAuthorizerArn: !Ref CognitoAuthorizerArn
-        CustomDomain: !Ref ApiCustomDomain
-        ExternalApiBasePath: users-roles
-        InternalApiBasePath: users-roles-internal
-        UsersAndRolesTableName: UsersAndRolesTable
-        StageName: Prod
 
   NvaDoiRegistrarClient:  # nva-doi-registrar-client
     Type: AWS::Serverless::Application

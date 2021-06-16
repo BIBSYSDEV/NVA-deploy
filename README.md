@@ -76,11 +76,21 @@ application itself.
 
 **[Publication API](https://github.com/BIBSYSDEV/nva-publication-api)**
 
+(Deployed in own CI/CD pipeline)
+
 For managing Publications.
 
-**[Customers API](https://github.com/BIBSYSDEV/nva-customer-api)**
+**[Identity Service](https://github.com/BIBSYSDEV/nva-identity-service)**
 
-For managing Customer Organizations.
+(Deployed in own CI/CD pipeline)
+
+For managing:
+* Authentication with Cognito.
+* User verification and creation. Looks up existing users or creates a default user for new logins from Customer Organizations. Uses API Key
+  stored as Secret in AWS to communicate with Users and Role Service.
+* Users of NVA and their roles. Uses API Key stored as Secret in AWS to protect parts of
+the API.
+* Customer Organizations.
 
 **[DOI Requests API](https://github.com/BIBSYSDEV/nva-doi-requests-api)**
 
@@ -88,8 +98,7 @@ For executing DOI Requests and metadata updates to DOI provider API (Datacite).
 
 **[Users and Roles Service](https://github.com/BIBSYSDEV/nva-user-access-service)**
 
-For managing users of NVA and their roles. Uses API Key stored as Secret in AWS to protect parts of 
-the API.
+
 
 **[Upload Multipart](https://github.com/BIBSYSDEV/nva-upload-multipart)**
 
@@ -98,13 +107,6 @@ For uploading files associated with Publications.
 **[Download Publication File API](https://github.com/BIBSYSDEV/nva-download-file)**
 
 For downloading files associated with Publications.
-
-### Triggers
-
-**[Cognito Post Authentication Trigger](https://github.com/BIBSYSDEV/nva-cognito-post-authentication-trigger)**
-
-For user verification and creation. Looks up existing users or creates a default user for new logins from Customer Organizations. Uses API Key 
-stored as Secret in AWS to communicate with Users and Role Service.
 
 ### Proxies to external services
 
