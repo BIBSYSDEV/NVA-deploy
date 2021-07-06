@@ -182,7 +182,6 @@ Resources:
       Parameters:
         CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: search
-        ResourcesTableStreamArn: !Ref PublicationsTableStreamArn
 
 Outputs:
   BackendDomainURL:
