@@ -32,10 +32,6 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
     Description: Name of S3 Bucket containing NVA resource files
     Default: NVAResourceStorageBucket
-  PublicationsTableStreamArn:
-    Type: AWS::SSM::Parameter::Value<String>
-    Description: Key to get ARN of DynamoDB stream events for publications
-    Default: PublicationsTableStreamArn
 
 Resources:
 
