@@ -31,7 +31,7 @@ Parameters:
   NVAResourceStorageBucket:
     Type: AWS::SSM::Parameter::Value<String>
     Description: Name of S3 Bucket containing NVA resource files
-    Default: NVAResourceStorageBucket
+    Default: '/NVA/PublicationData'
 
 Resources:
 
@@ -174,9 +174,8 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NvaSearchAPI
-        SemanticVersion: 0.0.10
+        SemanticVersion: 0.0.11
       Parameters:
-        CustomDomain: !Ref ApiCustomDomain
         CustomDomainBasePath: search
 
 Outputs:
