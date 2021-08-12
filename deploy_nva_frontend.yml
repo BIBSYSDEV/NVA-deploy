@@ -21,9 +21,9 @@ Parameters:
   BackendApiUrl:
     Type: AWS::SSM::Parameter::Value<String>
     Default: BackendApiUrl
-  CognitoDomain:
+  CognitoAuthenticationDomain:
     Type: AWS::SSM::Parameter::Value<String>
-    Default: CognitoDomain
+    Default: CognitoAuthenticationDomain
   CognitoIdentityPoolId:
     Type: AWS::SSM::Parameter::Value<String>
     Default: CognitoIdentityPoolId
@@ -64,10 +64,10 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NVA-Frontend
-        SemanticVersion: 0.1.24
+        SemanticVersion: 0.1.25
       Parameters:
         AlmaApiUrl: !Ref AlmaSruHost
-        AmazonCognitoDomain: !Ref CognitoDomain
+        AmazonCognitoDomain: !Ref CognitoAuthenticationDomain
         FrontendDomain: !Ref ApplicationDomain
         BackendDomain: !Ref BackendApiUrl
         DomainCertificateArn: !Ref ApplicationDomainCertificateArn
