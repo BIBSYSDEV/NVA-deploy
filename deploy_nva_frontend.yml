@@ -64,7 +64,7 @@ Resources:
     Properties:
       Location:
         ApplicationId: arn:aws:serverlessrepo:eu-west-1:884807050265:applications/NVA-Frontend
-        SemanticVersion: 0.1.25
+        SemanticVersion: 0.1.27
       Parameters:
         AlmaApiUrl: !Ref AlmaSruHost
         AmazonCognitoDomain: !Ref CognitoAuthenticationDomain
